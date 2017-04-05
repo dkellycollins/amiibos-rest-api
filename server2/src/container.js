@@ -5,8 +5,8 @@ const container = new Container();
 
 const adapter = new MongoDBAdapter({
   debug: true,
-  uri: 'mongodb://localhost:27017'
+  uri: 'mongodb://localhost:32768'
 });
 container.registerAdapter('mongodb', adapter, {default: true});
 
-export default contianer;
+export default container;
