@@ -1,0 +1,15 @@
+{
+   "rules": {
+      "ban": [true, ["confirm"], ["alert"]],
+      "curly": true,
+      "indent": [true, "spaces"],
+      "no-consecutive-blank-lines": true,
+      "no-debugger": true,
+      "no-string-throw": true,
+      "no-switch-case-fall-through": true,
+      "no-var-keyword": true,
+      "quotemark": [true, "single", "avoid-escape"],
+      "semicolon": true,
+      "triple-equals": [true, "allow-null-check", "allow-undefined-check"]
+   }
+}
