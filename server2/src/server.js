@@ -1,6 +1,6 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
-import amiiboController from './amiibos/amiibo.controller';
+import amiiboController from './controllers/amiibo.controller';
 
 const server = express();
 
