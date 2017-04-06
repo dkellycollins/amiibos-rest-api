@@ -1,6 +1,8 @@
+import {amiiboModel} from '../models';
 
 export default function amiiboSeriesModelFactory(container) {
   container.defineMapper('amiiboSeries', {
+    idAttribute: '_id',
     schema: {
       type: 'object',
       properties: {
@@ -10,7 +12,8 @@ export default function amiiboSeriesModelFactory(container) {
           minLength: 1,
           maxLength: 256 
         }
-      }
+      },
+      required: ['name']
     },
     relations: {
       hasMany: {
@@ -18,6 +21,12 @@ export default function amiiboSeriesModelFactory(container) {
           foreignKey: 'amiibo_series_id',
           localField: 'series'
         }
+      }
+    },
+    methods: {
+      beforeDestory: function(id, opts) {
+        //TODO: Doesn't work.
+        return amiiboModel.destroyAll({amiibo_series_id: id});
       }
     }
   });

@@ -1,6 +1,7 @@
 
 export default function amiiboModelFactory(container) {
   container.defineMapper('amiibo', {
+    idAttribute: '_id',
     schema: {
       type: 'object',
       properties: {
