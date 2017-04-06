@@ -1,6 +1,7 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
 import amiiboController from './controllers/amiibo.controller';
+import amiiboSeriesController from './controllers/amiiboSeries.controller';
 
 const server = express();
 
@@ -10,6 +11,7 @@ server.use(bodyParser.urlencoded({
 server.use(bodyParser.json())
 
 server.use('/amiibos', amiiboController);
+server.use('/amiibo-series', amiiboSeriesController);
 
 server.use(function (err, req, res, next) {
   if (!!err) {

@@ -7,7 +7,7 @@ const container = new Container();
 
 const adapter = new MongoDBAdapter({
   debug: true,
-  uri: 'mongodb://localhost:32768'
+  uri: 'mongodb://localhost:32769'
 });
 container.registerAdapter('mongodb', adapter, {default: true});
 
