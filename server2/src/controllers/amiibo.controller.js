@@ -22,17 +22,18 @@ router.put('/', function(req, res, next) {
   Promise.all(_.map(seriesNames, amiiboSeriesService.resolveSeriesByName))
     .then((series) => {
       const seriesByName = _.keyBy(series, 'name');
-      return Promise.all(_.map(req.body, (message) => {
-        const s = seriesByName[message.series];
-        return amiiboModel.create({
+      const models = _.map(req.body, (message) => {
+        return {
           name: message.name,
           releaseDate: message.releaseDate,
-          amiibo_series_id: s._id
-        });  
-      }));
+          amiibo_series_id: seriesByName[message.series]._id
+        };
+      });
+
+      return amiiboModel.createMany(models);
     })
     .then((amiibos) => {
-      res.json(amiibos);
+      res.json(amiibos);  
     })
     .catch(next);
 });
