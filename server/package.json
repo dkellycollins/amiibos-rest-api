@@ -29,7 +29,9 @@
     "inversify-binding-decorators": "3.0.0",
     "inversify-express-utils": "3.4.0",
     "inversify-logger-middleware": "3.0.0",
-    "js-data": "2.10.0",
+    "js-data": "3.0.0-rc.9",
+    "js-data-mongodb": "1.0.0-beta.1",
+    "lodash": "4.17.4",
     "reflect-metadata": "0.1.10"
   }
 }

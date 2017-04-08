@@ -1,25 +1,49 @@
+import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
 import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
-import {Amiibo, TYPE as TAmiibo} from '../models/amiibo';
+import {TYPES} from '../TYPES';
+import {IAmiibo} from '../models/amiibo';
+import {IAmiiboSeries} from '../models/AmiiboSeries';
+import {IAmiiboSeriesService} from '../services/AmiiboSeriesService';
 
 @injectable()
 @Controller('/amiibos')
 export class AmiibosController {
 
-  constructor(@inject(TAmiibo) private _amiibo) {
+  constructor(@inject(TYPES.Models.AmiiboModel) private _amiiboModel: any,
+              @inject(TYPES.Services.AmiiboSeriesService) private _amiiboSeriesService: IAmiiboSeriesService) {
   }
 
   @Get('/')
-  public search(): any[] {
-    return this._amiibo.findAll();
+  public search(): Promise<IAmiibo[]> {
+    return this._amiiboModel.findAll();
+  }
+
+  @Get('/:id')
+  public retrieve(req: Request): Promise<IAmiibo> {
+    return this._amiiboModel.find(req.params.id);
   }
 
   @Post('/')
-  public create(req: Request): any {
-    return this._amiibo.create(req.body);
+  public create(req: Request): Promise<IAmiibo> {
+    const seriesNames = _.chain(req.body)
+      .map('series')
+      .uniq()
+      .value();
+
+    return Promise.all(_.map(seriesNames, (name: string) => this._amiiboSeriesService.resolveByName(name)))
+      .then((series: IAmiiboSeries[]) => {
+        const seriesByName = _.keyBy(series, 'name');
+        const models = _.map(req.body, (message) => {
+          return {
+            name: message.name,
+            releaseDate: message.releaseDate,
+            amiibo_series_id: seriesByName[message.series]._id
+          };
+        });
+
+        return this._amiiboModel.createMany(models);
+      });
   }
 }
-
-export const NAME = 'AmiibosController';
-export const TYPE = Symbol('AmiibosController');
