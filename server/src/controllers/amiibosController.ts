@@ -46,4 +46,14 @@ export class AmiibosController {
         return this._amiiboModel.createMany(models);
       });
   }
+
+  @Post('/:id')
+  public update(req: Request): Promise<IAmiibo> {
+    return Promise.reject('Not Implemented');
+  }
+
+  @Delete('/:id')
+  public remove(req: Request): Promise<void> {
+    return this._amiiboModel.destroy(req.params.id);
+  }
 }

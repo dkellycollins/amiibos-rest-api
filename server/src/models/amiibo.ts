@@ -1,3 +1,4 @@
+import {IAmiiboSeries} from './AmiiboSeries';
 
 export interface IAmiibo {
   _id: string;
@@ -5,7 +6,7 @@ export interface IAmiibo {
   releaseDate: string;
 
   amiibo_series_id: string;
-  series: AmiiboSeries;
+  series: IAmiiboSeries;
 }
 
 export function registerAmiiboModel(container) {

@@ -1,7 +1,10 @@
+import {IAmiibo} from './Amiibo';
 
 export interface IAmiiboSeries {
   _id: string;
   name: string;
+
+  amiibos: IAmiibo[];
 }
 
 export function registerAmiiboSeriesModel(container) {
@@ -30,7 +33,7 @@ export function registerAmiiboSeriesModel(container) {
     methods: {
       beforeDestory: function(id, opts) {
         //TODO: Doesn't work.
-        return amiiboModel.destroyAll({amiibo_series_id: id});
+        return container.destroyAll('amiibo', {amiibo_series_id: id});
       }
     }
   });
