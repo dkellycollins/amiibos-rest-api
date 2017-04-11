@@ -12,8 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/body-parser": "^1.16.3",
-    "@types/express": "^4.0.35",
-    "@types/js-data": "^2.8.31",
+    "@types/express": "^4.0.35",``
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-tslint": "^7.1.0",

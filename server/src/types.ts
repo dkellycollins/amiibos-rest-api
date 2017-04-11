@@ -1,17 +1,17 @@
 
 export const TYPES = {
   Controllers: {
-    AmiiboController: Symbol('AmiiboController'),
-    AmiiboSeriesController: Symbol('AmiiboSeriesController')
+    AmiiboController: 'AmiiboController',
+    AmiiboSeriesController: 'AmiiboSeriesController'
   },
   Models: {
-    AmiiboModel: Symbol('AmiiboModel'),
-    AmiiboSeriesModel: Symbol('AmiiboSeriesModel'),
-    CollectionModel: Symbol('CollectionModel'),
-    DataStore: Symbol('DataStore')
+    AmiiboModel: 'AmiiboModel',
+    AmiiboSeriesModel: 'AmiiboSeriesModel',
+    CollectionModel: 'CollectionModel',
+    DataStore: 'DataStore'
   },
   Services: {
-    AmiiboService: Symbol('AmiiboService'), 
-    AmiiboSeriesService: Symbol('AmiiboSeriesService') 
+    AmiiboService: 'AmiiboService', 
+    AmiiboSeriesService: 'AmiiboSeriesService' 
   }
 }
