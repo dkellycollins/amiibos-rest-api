@@ -9,21 +9,29 @@ const URL = 'http://www.nintendo.com/amiibo/line-up';
 function readCache() {
   console.log('Reading from cache...');
 
-  return fs.readFileSync('./bin/index.html', 'utf8');
+  return new Promise(function(resolve, reject){
+    fs.readFile('./bin/index.html', 'utf8', function(err, data) {
+      if(!!err) {
+        reject(err);
+      }
+      else {
+        resolve(data);
+      }
+    });
+  });
 }
 
 function downloadSource(url) {
   console.log(`Downloading data from ${url}`);
 
   return scrape({
-    urls: [url],
-    directory: './bin'
-  })
-  .then(function (result) {
-    const resource = _.first(result);
-    return resource.text;
-  })
-  .catch(handelError);
+      urls: [url],
+      directory: './bin'
+    })
+    .then(function (result) {
+      const resource = _.first(result);
+      return resource.text;
+    });
 }
 
 function parseSource(result) {
@@ -50,12 +58,25 @@ function parseSource(result) {
 function processImages(ds) {
   console.log('Processing images...');
 
-  _.each(ds, function (amiibo) {
+  const promises = _.map(ds, function (amiibo) {
     var srcPath = path.join('./bin', amiibo.image);
     var destPath = path.join('./dest/images', amiibo.name + '.png');
 
+    return new Promise(function(resolve, reject) {
+      fs.copy(srcPath, destPath, function(err) {
+        if(!!err) {
+          reject(err);
+        }
+        else {
+          resolve();
+        }
+      })
+    })
+
     fs.copySync(srcPath, destPath);
   });
+
+  return Promise.all(promises);
 }
 
 function saveJson(ds) {
@@ -69,32 +90,48 @@ function saveJson(ds) {
     };
   });
 
-  fs.writeFileSync('./dest/amiibos.json', JSON.stringify(json));
+  return new Promise(function(resolve, reject) {
+    fs.outputFile('./dest/amiibos.json', JSON.stringify(json), function(err) {
+      if(!!err) {
+        reject(err);
+      }
+      else {
+        resolve();
+      }
+    });
+  });
+}
+
+function clean(clearCache) {
+  fs.removeSync('./dest');
+
+  if(clearCache) {
+    fs.removeSync('./bin');
+  }
 }
 
 function run(url, clearCache) {
+  clean(clearCache);
+  
   const cacheExists = fs.existsSync('./bin/index.html');
+  const promise = (!cacheExists)
+    ? downloadSource(url)
+    : readCache();
 
-  if(!fs.existsSync || clearCache) {
-    downloadSource(url)
-      .then(parseSource)
-      .then(function(ds) {
-        processImages(ds);
-        saveJson(ds);
-        console.log('Success!');
-      });
-  }
-  else {
-    const source = readCache();
-    const ds = parseSource(source);
-    processImages(ds);
-    saveJson(ds);
-    console.log('Success!');
-  }
+  promise
+    .then(parseSource)
+    .then(function(ds) {
+      return Promise.all([
+        processImages(ds),
+        saveJson(ds)
+      ]);
+    })
+    .then(function() { console.log('Success!'); })
+    .catch(handleError);
 }
 
-function handelError(error) {
+function handleError(error) {
   console.error(error);
 }
 
-run(URL, false);
+run(URL, true);
