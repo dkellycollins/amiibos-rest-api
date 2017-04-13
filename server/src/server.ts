@@ -1,16 +1,19 @@
 import {InversifyExpressServer} from 'inversify-express-utils';
 import * as bodyParser from 'body-parser';
 import container from './container';
+import {Config} from './config';
 
-let server = new InversifyExpressServer(container);
+const server = new InversifyExpressServer(container);
 
 server.setConfig((app) => {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
   app.use(bodyParser.json());
+
+  app.set('environment', Config.server.env);
 });
 
-let app = server.build();
-app.listen(3000);
-console.log('Server started on port 3000 :)');
+const app = server.build();
+app.listen(Config.server.port);
+console.log(`Server started on port ${Config.server.port} :)`);

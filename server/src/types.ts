@@ -13,5 +13,6 @@ export const TYPES = {
   Services: {
     AmiiboService: 'AmiiboService', 
     AmiiboSeriesService: 'AmiiboSeriesService' 
-  }
+  },
+  Config: 'Config'
 }

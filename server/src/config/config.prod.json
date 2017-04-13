@@ -1,0 +1,9 @@
+{
+  "server": {
+    "env": "production"
+  },
+  "mongo": {
+    "debug": false,
+    "uri": "mongodb://localhost:32769"
+  }
+}

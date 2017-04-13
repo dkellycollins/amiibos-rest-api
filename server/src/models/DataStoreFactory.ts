@@ -4,18 +4,18 @@ import {MongoDBAdapter} from 'js-data-mongodb';
 import {registerAmiiboModel} from './Amiibo';
 import {registerAmiiboSeriesModel} from './AmiiboSeries';
 import {TYPES} from '../types';
+import {IConfig} from '../config';
 
 /**
  * 
  * @param context 
  */
 export function dataStoreFactory(context: interfaces.Context): Container {
+  const config = context.container.get<IConfig>(TYPES.Config);
+
   const container = new Container();
 
-  const adapter = new MongoDBAdapter({
-    debug: true,
-    uri: 'mongodb://localhost:32769'
-  });
+  const adapter = new MongoDBAdapter(config.mongo);
   container.registerAdapter('mongodb', adapter, {default: true});
 
   registerAmiiboModel(container);

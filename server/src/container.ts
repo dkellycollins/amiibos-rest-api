@@ -11,8 +11,11 @@ import {IAmiiboSeriesService, AmiiboSeriesService} from './services/AmiiboSeries
 import {dataStoreFactory, modelFactory} from './models/dataStoreFactory';
 import {IAmiibo} from './models/amiibo';
 import {IAmiiboSeries} from './models/AmiiboSeries';
+import {IConfig, Config} from './config';
 
 const container = new Container({ defaultScope: "Singleton" });
+
+container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
 
 //Models
 container.bind<any>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
