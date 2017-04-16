@@ -3,14 +3,13 @@ var clean = require('gulp-clean');
 var ts = require('gulp-typescript');
 var runSequence = require('run-sequence');
 var tslint = require('gulp-tslint');
-
+var mocha = require('gulp-mocha');
 
 gulp.task('build', function(done) {
   runSequence(
     'lint:ts',
     'clean:ts',
-    'build:ts', 
-    'build:static',
+    ['build:ts', 'build:static'],
     done);    
 })
 
@@ -18,6 +17,11 @@ gulp.task('build:ts', compileTypescript({
   src: './src/**/*.ts',
   dest: './dist'
 }));
+
+gulp.task('build:ts:release', compileTypescript({
+  src: ['./src/**/*.ts', '!./src/**/*.spec.ts'],
+  dest: './dest'
+}))
 
 gulp.task('build:static', copyStaticFiles({
   src: './src/**/*.json',
@@ -30,6 +34,10 @@ gulp.task('lint:ts', lintTypescript({
 
 gulp.task('clean:ts', cleanFiles({
   src: './dist/**/*.*'
+}));
+
+gulp.task('test', ['build'], runTests({
+  src: './dist/**/*.spec.js'
 }));
 
 function copyStaticFiles(opts) {
@@ -67,4 +75,11 @@ function cleanFiles(opts) {
     return gulp.src(opts.src)
       .pipe(clean());
   };
+}
+
+function runTests(opts) {
+  return function() {
+    return gulp.src(opts.src, {read: false})
+      .pipe(mocha({reporter: 'nyan'}))
+  }
 }

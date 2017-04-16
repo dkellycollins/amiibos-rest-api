@@ -3,6 +3,7 @@ import {IAmiiboSeries} from './AmiiboSeries';
 export interface IAmiibo {
   _id: string;
   name: string;
+  displayName: string;
   releaseDate: string;
 
   amiibo_series_id: string;
@@ -22,6 +23,11 @@ export function registerAmiiboModel(container) {
           maxLength: 256,
           indexed: true 
         },
+        displayName: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 256
+        },
         releaseDate: {
           type: ['string', 'null'],
           pattern: /^\d\d\d\d-\d\d-\d\d$/
@@ -30,7 +36,7 @@ export function registerAmiiboModel(container) {
           type: 'string' 
         }
       },
-      required: ['name', 'amiibo_series_id']
+      required: ['name', 'displayName', 'amiibo_series_id']
     },
     relations: {
         belongsTo: {
