@@ -11,6 +11,7 @@ import {IAmiiboSeriesService, AmiiboSeriesService} from './services/AmiiboSeries
 import {dataStoreFactory, modelFactory} from './models/dataStoreFactory';
 import {IAmiibo} from './models/amiibo';
 import {IAmiiboSeries} from './models/AmiiboSeries';
+import {IAmiiboService, AmiiboService} from './services/AmiiboService';
 import {IConfig, Config} from './config';
 
 const container = new Container({ defaultScope: "Singleton" });
@@ -23,6 +24,7 @@ container.bind<any>(TYPES.Models.AmiiboModel).toDynamicValue(_.partial(modelFact
 container.bind<any>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(_.partial(modelFactory, 'amiiboSeries'));
 
 //Services
+container.bind<IAmiiboService>(TYPES.Services.AmiiboService).to(AmiiboService);
 container.bind<IAmiiboSeriesService>(TYPES.Services.AmiiboSeriesService).to(AmiiboSeriesService);
 
 //Controllers
