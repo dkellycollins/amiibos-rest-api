@@ -44,12 +44,6 @@ export function registerAmiiboModel(container) {
             foreignKey: 'amiibo_series_id',
             localField: 'series'
           }
-        },
-        hasMany: {
-          collection: {
-            foreignKeys: 'amiibo_ids',
-            localField: 'collections'
-          }
         }
       }
   });

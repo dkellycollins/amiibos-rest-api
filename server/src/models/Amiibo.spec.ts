@@ -15,12 +15,10 @@ describe('AmiiboModel.create', () => {
       amiibo_series_id: '1'
     },
     expected: {
-      _id: null,
       name: 'test_amiibo',
       displayName: 'Test Amiibo',
       releaseDate: '1970-01-01',
-      amiibo_series_id: '1',
-      series: null
+      amiibo_series_id: '1'
     }
   }))
 
@@ -60,7 +58,27 @@ describe('AmiiboModel.create', () => {
     shouldFail: true
   }))
 
-  it('should fail if a duplicate name is provided')
+  it('should fail if a duplicate name is provided', () => {
+    const amiiboModel = container.get<any>(TYPES.Models.AmiiboModel);
+    amiiboModel.create({
+        name: 'test_amiibo',
+        displayName: 'Test Amiibo',
+        amiibo_series_id: '1'
+      })
+      .then(() => {
+        return amiiboModel.create({
+          name: 'test_amiibo',
+          displayName: 'Test Amiibo',
+          amiibo_series_id: '1'
+        })
+      })
+      .then(() => {
+        false.should.be.true;
+      })
+      .catch((err) => {
+        err.should.not.be.null;
+      })
+  })
 
   function test(opts) {
     return function() {
@@ -69,13 +87,17 @@ describe('AmiiboModel.create', () => {
 
       if(opts.shouldFail) {
         amiiboPromise.should.be.rejected;
+
+        return amiiboPromise.catch(() => {
+          return true;
+        })
       }
       else {
         amiiboPromise.should.be.fullfilled;
         amiiboPromise.should.eventually.deep.equal(opts.expected);
-      }
 
-      return amiiboPromise
+        return amiiboPromise;
+      }
     }
   }
 });

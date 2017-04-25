@@ -3,7 +3,7 @@
     "env": "test"
   },
   "mongo": {
-    "debug": true,
+    "debug": false,
     "uri": "mongodb://localhost:32768/amiibos_test"
   }
 }
