@@ -3,6 +3,7 @@ const _ = require('lodash');
 const $ = require('cheerio');
 const path = require('path');
 const fs = require('fs-extra');
+const moment = require('moment');
 
 const URL = 'http://www.nintendo.com/amiibo/line-up';
 
@@ -26,7 +27,10 @@ function downloadSource(url) {
 
   return scrape({
       urls: [url],
-      directory: './bin'
+      directory: './bin',
+      sources: [
+        {selector: 'img[itemprop="image"]', attr: 'src'}
+      ]
     })
     .then(function (result) {
       const resource = _.first(result);
@@ -45,14 +49,33 @@ function parseSource(result) {
     const $series = $html('span[itemprop="isRelatedTo"]', $container);
     const seriesName = $series.text();
     const $image = _.first($html('img[itemprop="image"]', $container));
+    const $releaseDate = _.last($html('.b8', $container));
+    const releaseDate = $releaseDate.children[0].data;
 
     return {
       name: _.snakeCase($container.attribs.title),
       displayName: $container.attribs.title,
       series: seriesName.replace('series', '').trim(),
-      image: $image.attribs.src
+      image: $image.attribs.src,
+      releaseDate: parseReleaseDate(releaseDate)
     };
   });
+}
+
+function parseReleaseDate(releaseDate) {
+  if(!releaseDate) {
+    return null;
+  }
+
+  releaseDate = releaseDate.replace('Available', '');
+  momentDate = moment(releaseDate, ['MMMM YYYY', 'MM/DD/YYYY']);
+
+  if(!momentDate.isValid()) {
+    console.warn('Failed to parse date: ' + releaseDate);
+    return null;
+  }
+
+  return momentDate.format('YYYY-MM-DD');
 }
 
 function processImages(ds) {
@@ -86,7 +109,8 @@ function saveJson(ds) {
     return {
       name: data.name,
       displayName: data.displayName,
-      series: data.series
+      series: data.series,
+      releaseDate: data.releaseDate
     };
   });
 
