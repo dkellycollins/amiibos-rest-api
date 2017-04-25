@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import * as _ from 'lodash';
+import * as promiseFinally from 'promise.prototype.finally';
 import {Container, interfaces} from 'inversify';
 import {interfaces as expressUtilInterfaces, TYPE} from 'inversify-express-utils';
 import {TYPES} from './types';
@@ -13,6 +14,8 @@ import {IAmiibo} from './models/amiibo';
 import {IAmiiboSeries} from './models/AmiiboSeries';
 import {IAmiiboService, AmiiboService} from './services/AmiiboService';
 import {IConfig, Config} from './config';
+
+promiseFinally.shim();
 
 const container = new Container({ defaultScope: "Singleton" });
 

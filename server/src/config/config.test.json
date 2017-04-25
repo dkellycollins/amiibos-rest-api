@@ -1,0 +1,9 @@
+{
+  "server": {
+    "env": "test"
+  },
+  "mongo": {
+    "debug": true,
+    "uri": "mongodb://localhost:32769/amiibos_test"
+  }
+}
