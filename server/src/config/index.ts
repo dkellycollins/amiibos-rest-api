@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as yargs from 'yargs';
 
 export interface IConfig {
   server: {
@@ -10,7 +9,7 @@ export interface IConfig {
   mongo: any
 }
 
-const env = yargs.argv.env;
+const env = process.env.NODE_ENV;
 
 console.log(`Loading config for env: [${env || 'default'}]`);
 

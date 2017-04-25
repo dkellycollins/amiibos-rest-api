@@ -4,6 +4,6 @@
   },
   "mongo": {
     "debug": true,
-    "uri": "mongodb://localhost:32769/amiibos_test"
+    "uri": "mongodb://localhost:32768/amiibos_test"
   }
 }

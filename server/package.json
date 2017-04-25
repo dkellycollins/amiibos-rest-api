@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
-    "start": "node ./dist/server.js --env=dev",
-    "test": "gulp test"
+    "start": "node ./dist/server.js",
+    "test": "NODE_ENV=test gulp test"
   },
   "author": "",
   "license": "MIT",
@@ -39,7 +39,6 @@
     "js-data": "3.0.0-rc.9",
     "js-data-mongodb": "1.0.0-beta.1",
     "lodash": "4.17.4",
-    "reflect-metadata": "0.1.10",
-    "yargs": "7.1.0"
+    "reflect-metadata": "0.1.10"
   }
 }
