@@ -21,6 +21,7 @@ export function registerAmiiboModel(container) {
           type: 'string',
           minLength: 1,
           maxLength: 256,
+          uniqueItems: true,
           indexed: true 
         },
         displayName: {
@@ -36,7 +37,7 @@ export function registerAmiiboModel(container) {
           type: 'string' 
         }
       },
-      required: ['name', 'displayName', 'amiibo_series_id']
+      required: ['name', 'displayName']
     },
     relations: {
         belongsTo: {

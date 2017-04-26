@@ -4,7 +4,7 @@ import {IAmiiboSeries} from '../models/AmiiboSeries';
 import {TYPES} from '../types';
 
 export interface IAmiiboSeriesService {
-  resolveByName(name: string): Promise<IAmiiboSeries>;
+  resolveByName(name: string, displayName: string): Promise<IAmiiboSeries>;
 }
 
 @injectable()
@@ -14,12 +14,13 @@ export class AmiiboSeriesService implements IAmiiboSeriesService {
 
   }
 
-  public resolveByName(name: string): Promise<IAmiiboSeries> {
+  public resolveByName(name: string, displayName: string): Promise<IAmiiboSeries> {
     return this._amiiboSeriesModel.findAll({name: name})
       .then((series: IAmiiboSeries[]) => {
         if(_.isEmpty(series)) {
           return this._amiiboSeriesModel.create({
-            name: name
+            name: name,
+            displayName: displayName
           });
         }
 

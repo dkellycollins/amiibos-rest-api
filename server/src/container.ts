@@ -31,7 +31,7 @@ container.bind<IAmiiboService>(TYPES.Services.AmiiboService).to(AmiiboService);
 container.bind<IAmiiboSeriesService>(TYPES.Services.AmiiboSeriesService).to(AmiiboSeriesService);
 
 //Controllers
-container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiibosController).whenTargetNamed(NAMES.AmiiboControler);
+container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiibosController).whenTargetNamed(NAMES.AmiibosControler);
 container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiiboSeriesController).whenTargetNamed(NAMES.AmiiboSeriesController);
 container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(OkComputerController).whenTargetNamed(NAMES.OkComputerController);
 

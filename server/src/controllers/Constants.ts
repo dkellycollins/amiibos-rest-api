@@ -1,6 +1,6 @@
 
 export const NAMES = {
-  AmiiboControler: 'AmiiboController',
+  AmiibosControler: 'AmiibosController',
   AmiiboSeriesController: 'AmiiboSeriesController',
   OkComputerController: 'OkComputerController'
 };

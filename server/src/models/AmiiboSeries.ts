@@ -17,10 +17,16 @@ export function registerAmiiboSeriesModel(container) {
         name: { 
           type: 'string',
           minLength: 1,
-          maxLength: 256 
+          maxLength: 256,
+          uniqueItems: true 
+        },
+        displayName: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 256
         }
       },
-      required: ['name']
+      required: ['name', 'displayName']
     },
     relations: {
       hasMany: {
@@ -30,11 +36,13 @@ export function registerAmiiboSeriesModel(container) {
         }
       }
     },
+    /*
     methods: {
       beforeDestory: function(id, opts) {
         //TODO: Doesn't work.
         return container.destroyAll('amiibo', {amiibo_series_id: id});
       }
     }
+    */
   });
 }

@@ -43,17 +43,18 @@ export class AmiiboService implements IAmiiboService {
   public create(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {
     const seriesNames = _.chain(infos)
       .map('series')
+      .filter()
       .uniq()
       .value();
 
-    return Promise.all(_.map(seriesNames, (name: string) => this._amiiboSeriesService.resolveByName(name)))
+    return Promise.all(_.map(seriesNames, _.bind(this.resolveSeries, this)))
       .then((series: IAmiiboSeries[]) => {
         const seriesByName = _.keyBy(series, 'name');
         const models = _.map(infos, (info) => {
           return {
             name: info.name,
             releaseDate: info.releaseDate,
-            amiibo_series_id: seriesByName[info.series]._id
+            amiibo_series_id: _.get(seriesByName, `${info.series}._id`)
           };
         });
 
@@ -67,5 +68,10 @@ export class AmiiboService implements IAmiiboService {
 
   public remove(id: string): Promise<void> {
     return this._amiiboModel.destroy(id);
+  }
+
+  private resolveSeries(name: string): Promise<IAmiiboSeries> {
+    const uniqueName = _.snakeCase(name);
+    return this._amiiboSeriesService.resolveByName(uniqueName, name);
   } 
 }
