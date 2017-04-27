@@ -53,6 +53,7 @@ export class AmiiboService implements IAmiiboService {
         const models = _.map(infos, (info) => {
           return {
             name: info.name,
+            displayName: info.displayName,
             releaseDate: info.releaseDate,
             amiibo_series_id: _.get(seriesByName, `${info.series}._id`)
           };
