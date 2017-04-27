@@ -1,30 +1,38 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
+import {Controller, Get, Post, Put, Patch, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {TYPES} from '../TYPES';
+import {IAmiiboSeriesService} from '../services/AmiiboSeriesService';
 import {IAmiiboSeries} from '../models/AmiiboSeries';
 
 @injectable()
 @Controller('/amiibo-series')
 export class AmiiboSeriesController {
 
-  constructor(@inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: any) {
+  constructor(@inject(TYPES.Services.AmiiboSeriesService) private _amiiboSeriesService: IAmiiboSeriesService) {
 
   }
 
   @Get('/')
   public search(req: Request): Promise<IAmiiboSeries[]> {
-    return this._amiiboSeriesModel.findAll(req.query);
+    return Promise.reject('Not Implemented');
   }
 
   @Get('/:id')
   public retrieve(req: Request): Promise<IAmiiboSeries> {
-    return this._amiiboSeriesModel.find(req.params.id);
+    return Promise.reject('Not Implemented');
+  }
+
+  @Patch('/')
+  public resolve(req: Request): Promise<IAmiiboSeries[]> {
+    return Promise.all(_.map(req.body, (message) => {
+      return this._amiiboSeriesService.resolveByName(message.name, message.displayName);
+    }));
   }
 
   @Delete('/:id')
-  public removeEventListener(req: Request): Promise<void> {
-    return this._amiiboSeriesModel.destroy(req.params.id);
+  public remove(req: Request): Promise<void> {
+    return Promise.reject('Not Implemented');
   }
 }

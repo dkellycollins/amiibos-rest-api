@@ -47,15 +47,20 @@ function parseSource(result) {
   return _.map($containers, function($container) {
     const name = $container.attribs.title;
     const $series = $html('span[itemprop="isRelatedTo"]', $container);
-    const seriesName = $series.text();
+    var seriesName = $series.text();
     const $image = _.first($html('img[itemprop="image"]', $container));
     const $releaseDate = _.last($html('.b8', $container));
     const releaseDate = $releaseDate.children[0].data;
 
+    seriesName = seriesName.replace('series', '').trim();
+
     return {
       name: _.snakeCase($container.attribs.title),
       displayName: $container.attribs.title,
-      series: seriesName.replace('series', '').trim(),
+      series: {
+        name: _.snakeCase(seriesName),
+        displayName: seriesName
+      },
       image: $image.attribs.src,
       releaseDate: parseReleaseDate(releaseDate)
     };
@@ -102,14 +107,38 @@ function processImages(ds) {
   return Promise.all(promises);
 }
 
-function saveJson(ds) {
+function saveAmiiboSeriesJson(ds) {
+  const json = _.chain(ds)
+    .map('series')
+    .uniqBy('name')
+    .map(function (data) {
+      return {
+        name: data.name,
+        displayName: data.displayName
+      }
+    })
+    .value();
+
+  return new Promise(function(resolve, reject) {
+    fs.outputFile('./dest/amiiboSeries.json', JSON.stringify(json), function(err) {
+      if(!!err) {
+        reject(err);
+      }
+      else {
+        resolve();
+      }
+    });
+  });
+}
+
+function saveAmiibosJson(ds) {
   console.log('Saving json...');
 
   const json = _.map(ds, function(data) {
     return {
       name: data.name,
       displayName: data.displayName,
-      series: data.series,
+      series: data.series.name,
       releaseDate: data.releaseDate
     };
   });
@@ -147,7 +176,8 @@ function run(url, clearCache) {
     .then(function(ds) {
       return Promise.all([
         processImages(ds),
-        saveJson(ds)
+        saveAmiibosJson(ds),
+        saveAmiiboSeriesJson(ds)
       ]);
     })
     .then(function() { console.log('Success!'); })
@@ -158,4 +188,4 @@ function handleError(error) {
   console.error(error);
 }
 
-run(URL, true);
+run(URL, false);
