@@ -1,0 +1,142 @@
+swagger: '2.0'
+info:
+  title: Amiibos API
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /amiibos:
+    get:
+      summary: Search
+      security: []
+      parameters:
+        - name: name
+          in: query
+          type: string
+          required: false
+        - name: series
+          in: query
+          type: string
+          required: false
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Amiibo'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Save
+      security: []
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Amiibo'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/amiibos/{name}':
+    delete:
+      summary: Remove
+      security: []
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: SuccessResponse
+          schema: {}
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /amiibo-series:
+    get:
+      summary: Search
+      security: []
+      parameters:
+        - name: name
+          in: query
+          type: string
+          required: false
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AmiiboSeries'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Save
+      security: []
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AmiiboSeries'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/amiibo-series/{name}':
+    delete:
+      summary: Remove
+      security: []
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: SuccessResponse
+          schema: {}
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  Amiibo:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
+      releaseDate:
+        type: string
+  AmiiboSeries:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
