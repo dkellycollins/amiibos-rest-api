@@ -97,22 +97,54 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   '/amiibo-series/{name}':
+    parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
     delete:
       summary: Remove
       security: []
-      parameters:
-        - name: name
-          in: path
-          type: string
-          required: true
       responses:
         '200':
-          description: SuccessResponse
-          schema: {}
+          description: OK
         default:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
+  '/collections': 
+    post: 
+      summary: Create
+      security: []
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/collections/{id}/amiibos':
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    get:
+      summary: Fetch
+      security: []
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Update
+      responses:
+        200:
+          description: OK
+    
 definitions:
   Error:
     type: object
