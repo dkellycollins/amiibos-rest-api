@@ -16,12 +16,12 @@ export class AmiiboSeriesController {
 
   @Get('/')
   public search(req: Request): Promise<IAmiiboSeries[]> {
-    return Promise.reject('Not Implemented');
+    return this._amiiboSeriesService.search(req.query.name);
   }
 
   @Get('/:id')
   public retrieve(req: Request): Promise<IAmiiboSeries> {
-    return Promise.reject('Not Implemented');
+    return this._amiiboSeriesService.fetch(req.params.id);
   }
 
   @Patch('/')
@@ -33,6 +33,6 @@ export class AmiiboSeriesController {
 
   @Delete('/:id')
   public remove(req: Request): Promise<void> {
-    return Promise.reject('Not Implemented');
+    return this._amiiboSeriesService.remove(req.params.id); 
   }
 }
