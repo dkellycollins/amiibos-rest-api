@@ -3,7 +3,7 @@ import {injectable, inject} from 'inversify';
 import {IAmiiboSeries} from '../models/AmiiboSeries';
 import {TYPES} from '../types';
 
-export interface IAmiiboSeriesService {
+export interface IAmiiboSeriesManager {
   search(name: string): Promise<IAmiiboSeries[]>;
   fetch(id: string): Promise<IAmiiboSeries>;
   resolveByName(name: string, displayName: string): Promise<IAmiiboSeries>;
@@ -11,7 +11,7 @@ export interface IAmiiboSeriesService {
 }
 
 @injectable()
-export class AmiiboSeriesService implements IAmiiboSeriesService {
+export class AmiiboSeriesManager implements IAmiiboSeriesManager {
 
   constructor(@inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: any) {
 

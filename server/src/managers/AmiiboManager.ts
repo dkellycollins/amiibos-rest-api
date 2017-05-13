@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
 import {IAmiibo} from '../models/Amiibo';
 import {IAmiiboSeries} from '../models/AmiiboSeries';
-import {IAmiiboSeriesService} from './AmiiboSeriesService';
+import {IAmiiboSeriesManager} from './AmiiboSeriesManager';
 import {TYPES} from '../types';
 
 export interface ICreateAmiiboInfo {
@@ -12,7 +12,7 @@ export interface ICreateAmiiboInfo {
   series: string;
 }
 
-export interface IAmiiboService {
+export interface IAmiiboManager {
 
   search(criteria: any): Promise<IAmiibo[]>;
 
@@ -26,10 +26,11 @@ export interface IAmiiboService {
 }
 
 @injectable()
-export class AmiiboService implements IAmiiboService {
+export class AmiiboManager implements IAmiiboManager {
 
-  constructor(@inject(TYPES.Models.AmiiboModel) private _amiiboModel: any,
-              @inject(TYPES.Services.AmiiboSeriesService) private _amiiboSeriesService: IAmiiboSeriesService) {
+  constructor(
+    @inject(TYPES.Models.AmiiboModel) private _amiiboModel: any,
+    @inject(TYPES.Managers.AmiiboSeriesManager) private _amiiboSeriesManager: IAmiiboSeriesManager) {
 
   }
 
@@ -72,6 +73,6 @@ export class AmiiboService implements IAmiiboService {
 
   private async resolveSeries(name: string): Promise<IAmiiboSeries> {
     const uniqueName = _.snakeCase(name);
-    return await this._amiiboSeriesService.resolveByName(uniqueName, name);
+    return await this._amiiboSeriesManager.resolveByName(uniqueName, name);
   } 
 }

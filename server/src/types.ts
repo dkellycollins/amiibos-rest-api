@@ -4,15 +4,15 @@ export const TYPES = {
     AmiiboController: 'AmiiboController',
     AmiiboSeriesController: 'AmiiboSeriesController'
   },
+  Managers: {
+    AmiiboManager: 'AmiiboManager', 
+    AmiiboSeriesManager: 'AmiiboSeriesManager' 
+  },
   Models: {
     AmiiboModel: 'AmiiboModel',
     AmiiboSeriesModel: 'AmiiboSeriesModel',
     CollectionModel: 'CollectionModel',
     DataStore: 'DataStore'
-  },
-  Services: {
-    AmiiboService: 'AmiiboService', 
-    AmiiboSeriesService: 'AmiiboSeriesService' 
   },
   Config: 'Config'
 }
