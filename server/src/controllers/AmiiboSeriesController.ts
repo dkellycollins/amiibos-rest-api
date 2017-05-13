@@ -15,24 +15,26 @@ export class AmiiboSeriesController {
   }
 
   @Get('/')
-  public search(req: Request): Promise<IAmiiboSeries[]> {
-    return this._amiiboSeriesService.search(req.query.name);
+  public async search(req: Request): Promise<IAmiiboSeries[]> {
+    return await this._amiiboSeriesService.search(req.query.name);
   }
 
   @Get('/:id')
-  public retrieve(req: Request): Promise<IAmiiboSeries> {
-    return this._amiiboSeriesService.fetch(req.params.id);
+  public async retrieve(req: Request): Promise<IAmiiboSeries> {
+    return await this._amiiboSeriesService.fetch(req.params.id);
   }
 
   @Patch('/')
-  public resolve(req: Request): Promise<IAmiiboSeries[]> {
-    return Promise.all(_.map(req.body, (message) => {
+  public async resolve(req: Request): Promise<IAmiiboSeries[]> {
+    const promises = _.map(req.body, (message: any) => {
       return this._amiiboSeriesService.resolveByName(message.name, message.displayName);
-    }));
+    });
+
+    return await Promise.all(promises);
   }
 
   @Delete('/:id')
-  public remove(req: Request): Promise<void> {
-    return this._amiiboSeriesService.remove(req.params.id); 
+  public async remove(req: Request): Promise<void> {
+    return await this._amiiboSeriesService.remove(req.params.id); 
   }
 }

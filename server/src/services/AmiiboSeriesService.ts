@@ -17,31 +17,33 @@ export class AmiiboSeriesService implements IAmiiboSeriesService {
 
   }
 
-  public search(name: string): Promise<IAmiiboSeries[]> {
-    return this._amiiboSeriesModel.findAll({
+  public async search(name: string): Promise<IAmiiboSeries[]> {
+    return await this._amiiboSeriesModel.findAll({
       name: name
     });
   }
 
-  public fetch(id: string): Promise<IAmiiboSeries> {
-    return this._amiiboSeriesModel.find(id);
+  public async fetch(id: string): Promise<IAmiiboSeries> {
+    return await this._amiiboSeriesModel.find(id);
   }
 
-  public resolveByName(name: string, displayName: string): Promise<IAmiiboSeries> {
-    return this._amiiboSeriesModel.findAll({name: name})
-      .then((series: IAmiiboSeries[]) => {
-        if(_.isEmpty(series)) {
-          return this._amiiboSeriesModel.create({
-            name: name,
-            displayName: displayName
-          });
-        }
+  public async resolveByName(name: string, displayName: string): Promise<IAmiiboSeries> {
+    const series = await this._amiiboSeriesModel.findAll({name: name});
 
-        return this._amiiboSeriesModel.update(_.get(series, '[0]._id'), { displayName: displayName });
+    if(_.isEmpty(series)) {
+      return await this._amiiboSeriesModel.create({
+        name: name,
+        displayName: displayName
       });
+    }
+
+    const id = series[0]._id;
+    return await this._amiiboSeriesModel.update(id, {
+      displayName: displayName
+    });
   }
 
-  public remove(id: string): Promise<void> {
-    return this._amiiboSeriesModel.destroy(id);
+  public async remove(id: string): Promise<void> {
+    return await this._amiiboSeriesModel.destroy(id);
   }
 }

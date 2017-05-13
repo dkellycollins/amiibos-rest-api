@@ -4,6 +4,7 @@ var ts = require('gulp-typescript');
 var runSequence = require('run-sequence');
 var tslint = require('gulp-tslint');
 var mocha = require('gulp-mocha');
+var babel = require('gulp-babel');
 
 gulp.task('build', function(done) {
   runSequence(
@@ -53,6 +54,9 @@ function compileTypescript(opts) {
    return function () {
       return gulp.src(opts.src)
          .pipe(tsProject())
+         .pipe(babel({
+           presets: ['es2015']
+         }))
          .pipe(gulp.dest(opts.dest));
    };
 }

@@ -7,6 +7,7 @@ import {TYPES} from '../types';
 
 export interface ICreateAmiiboInfo {
   name: string;
+  displayName: string;
   releaseDate: string;
   series: string;
 }
@@ -32,47 +33,45 @@ export class AmiiboService implements IAmiiboService {
 
   }
 
-  public search(criteria: any): Promise<IAmiibo[]> {
-    return this._amiiboModel.findAll();
+  public async search(criteria: any): Promise<IAmiibo[]> {
+    return await this._amiiboModel.findAll();
   }
 
-  public fetch(id: string): Promise<IAmiibo> {
-    return this._amiiboModel.find(id);
+  public async fetch(id: string): Promise<IAmiibo> {
+    return await this._amiiboModel.find(id);
   }
 
-  public create(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {
+  public async create(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {
     const seriesNames = _.chain(infos)
       .map('series')
-      .filter()
+      .compact()
       .uniq()
       .value();
 
-    return Promise.all(_.map(seriesNames, _.bind(this.resolveSeries, this)))
-      .then((series: IAmiiboSeries[]) => {
-        const seriesByName = _.keyBy(series, 'name');
-        const models = _.map(infos, (info) => {
-          return {
-            name: info.name,
-            displayName: info.displayName,
-            releaseDate: info.releaseDate,
-            amiibo_series_id: _.get(seriesByName, `${info.series}._id`)
-          };
-        });
+    const series = await Promise.all(_.map(seriesNames, _.bind(this.resolveSeries, this)));
+    const seriesByName = _.keyBy(series, 'name');
+    const newInfos = _.map(infos, (info: ICreateAmiiboInfo) => {
+      return {
+        name: info.name,
+        displayName: info.displayName,
+        releaseDate: info.releaseDate,
+        amiibo_series_id: _.get(seriesByName, `${info.series}._id`)
+      };
+    });
 
-        return this._amiiboModel.createMany(models);
-      });
+    return await this._amiiboModel.createMany(newInfos);
   }
 
-  public update(id: string, info: any): Promise<IAmiibo> {
+  public async update(id: string, info: any): Promise<IAmiibo> {
     return Promise.reject('Not Implemented');
   }
 
-  public remove(id: string): Promise<void> {
-    return this._amiiboModel.destroy(id);
+  public async remove(id: string): Promise<void> {
+    return await this._amiiboModel.destroy(id);
   }
 
-  private resolveSeries(name: string): Promise<IAmiiboSeries> {
+  private async resolveSeries(name: string): Promise<IAmiiboSeries> {
     const uniqueName = _.snakeCase(name);
-    return this._amiiboSeriesService.resolveByName(uniqueName, name);
+    return await this._amiiboSeriesService.resolveByName(uniqueName, name);
   } 
 }
