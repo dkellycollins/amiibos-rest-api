@@ -6,12 +6,14 @@ export const TYPES = {
   },
   Managers: {
     AmiiboManager: 'AmiiboManager', 
-    AmiiboSeriesManager: 'AmiiboSeriesManager' 
+    AmiiboSeriesManager: 'AmiiboSeriesManager',
+    CollectionManager: 'CollectionManager' 
   },
   Models: {
     AmiiboModel: 'AmiiboModel',
     AmiiboSeriesModel: 'AmiiboSeriesModel',
     CollectionModel: 'CollectionModel',
+    CollectionItemModel: 'CollectionItemModel',
     DataStore: 'DataStore'
   },
   Config: 'Config'

@@ -4,15 +4,29 @@ import * as promiseFinally from 'promise.prototype.finally';
 import {Container, interfaces} from 'inversify';
 import {interfaces as expressUtilInterfaces, TYPE} from 'inversify-express-utils';
 import {TYPES} from './types';
-import {NAMES} from './controllers/Constants';
-import {AmiibosController} from './controllers/amiibosController';
-import {AmiiboSeriesController} from './controllers/AmiiboSeriesController';
-import {OkComputerController} from './controllers/OkComputerController';
-import {IAmiiboSeriesService, AmiiboSeriesService} from './services/AmiiboSeriesService';
-import {dataStoreFactory, modelFactory} from './models/dataStoreFactory';
-import {IAmiibo} from './models/amiibo';
-import {IAmiiboSeries} from './models/AmiiboSeries';
-import {IAmiiboService, AmiiboService} from './services/AmiiboService';
+import {
+  NAMES, 
+  AmiibosController, 
+  AmiiboSeriesController, 
+  CollectionsController,
+  OkComputerController
+} from './controllers';
+import {
+  IAmiiboManager,
+  AmiiboManager,
+  IAmiiboSeriesManager,
+  AmiiboSeriesManager,
+  ICollectionManager,
+  CollectionManager
+} from './managers';
+import {
+  IAmiibo,
+  IAmiiboSeries,
+  ICollection,
+  ICollectionItem,
+  dataStoreFactory,
+  modelFactory
+} from './models';
 import {IConfig, Config} from './config';
 
 promiseFinally.shim();
@@ -25,10 +39,13 @@ container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
 container.bind<any>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
 container.bind<any>(TYPES.Models.AmiiboModel).toDynamicValue(_.partial(modelFactory, 'amiibo'));
 container.bind<any>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(_.partial(modelFactory, 'amiiboSeries'));
+container.bind<any>(TYPES.Models.CollectionModel).toDynamicValue(_.partial(modelFactory, 'collection'));
+container.bind<any>(TYPES.Models.CollectionItemModel).toDynamicValue(_.partial(modelFactory, 'collectionItem'));
 
-//Services
-container.bind<IAmiiboService>(TYPES.Services.AmiiboService).to(AmiiboService);
-container.bind<IAmiiboSeriesService>(TYPES.Services.AmiiboSeriesService).to(AmiiboSeriesService);
+//Managers
+container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);
+container.bind<IAmiiboSeriesManager>(TYPES.Managers.AmiiboSeriesManager).to(AmiiboSeriesManager);
+container.bind<ICollectionManager>(TYPES.Managers.CollectionManager).to(CollectionManager);
 
 //Controllers
 container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiibosController).whenTargetNamed(NAMES.AmiibosControler);

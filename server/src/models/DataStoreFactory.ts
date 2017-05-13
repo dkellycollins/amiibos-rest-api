@@ -3,6 +3,8 @@ import {Container} from 'js-data';
 import {MongoDBAdapter} from 'js-data-mongodb';
 import {registerAmiiboModel} from './Amiibo';
 import {registerAmiiboSeriesModel} from './AmiiboSeries';
+import {registerCollectionModel} from './Collection';
+import {registerCollectionItemModel} from './CollectionItem';
 import {TYPES} from '../types';
 import {IConfig} from '../config';
 
@@ -20,6 +22,8 @@ export function dataStoreFactory(context: interfaces.Context): Container {
 
   registerAmiiboModel(container);
   registerAmiiboSeriesModel(container);
+  registerCollectionModel(container);
+  registerCollectionItemModel(container);
 
   return container;
 }
