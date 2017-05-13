@@ -1,6 +1,9 @@
 swagger: '2.0'
 info:
   title: Amiibos API
+  description: >
+    A simple REST services that provides data about amiibos 
+    and allows consumers to group amiibos into collections.
   version: 1.0.0
 schemes:
   - https
@@ -9,8 +12,9 @@ produces:
 paths:
   /amiibos:
     get:
-      summary: Search
-      security: []
+      description: >
+        
+      tags: ['public']
       parameters:
         - name: name
           in: query
@@ -115,6 +119,16 @@ paths:
   '/collections': 
     post: 
       summary: Create
+      security: []
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete
       security: []
       responses:
         '200':
