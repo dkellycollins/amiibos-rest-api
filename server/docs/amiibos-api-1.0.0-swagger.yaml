@@ -12,47 +12,47 @@ produces:
 paths:
   /amiibos:
     get:
-      description: >
-        
+      description: 'Returns Amiibos matching the provided criteria'
       tags: ['public']
       parameters:
         - name: name
+          description: 'The unique name of the Amiibo'
           in: query
           type: string
           required: false
         - name: series
+          description: 'The unique name of the Amiibos Series'
           in: query
           type: string
           required: false
       responses:
         '200':
-          description: SuccessResponse
+          description: 'Success Response'
           schema:
             type: array
             items:
               $ref: '#/definitions/Amiibo'
-        default:
-          description: Unexpected Error
+        '500':
+          description: 'Server Error'
           schema:
             $ref: '#/definitions/Error'
-    patch:
-      summary: Save
-      security: []
+    put:
+      description: 'Saves the provided Amiibo data'
+      tags: ['admin']
       responses:
         '200':
-          description: SuccessResponse
+          description: 'Success Response'
           schema:
             type: array
             items:
               $ref: '#/definitions/Amiibo'
         default:
-          description: Unexpected Error
+          description: 'Server Error'
           schema:
             $ref: '#/definitions/Error'
   '/amiibos/{name}':
     delete:
-      summary: Remove
-      security: []
+      tags: ['admin']
       parameters:
         - name: name
           in: path
@@ -68,8 +68,7 @@ paths:
             $ref: '#/definitions/Error'
   /amiibo-series:
     get:
-      summary: Search
-      security: []
+      tags: ['public']
       parameters:
         - name: name
           in: query
@@ -86,9 +85,8 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-    patch:
-      summary: Save
-      security: []
+    put:
+      tags: ['admin']
       responses:
         '200':
           description: SuccessResponse
@@ -107,8 +105,7 @@ paths:
         type: string
         required: true
     delete:
-      summary: Remove
-      security: []
+      tags: ['admin']
       responses:
         '200':
           description: OK
@@ -118,8 +115,7 @@ paths:
             $ref: '#/definitions/Error'
   '/collections': 
     post: 
-      summary: Create
-      security: []
+      tags: ['public']
       responses:
         '200':
           description: OK
@@ -128,8 +124,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     delete:
-      summary: Delete
-      security: []
+      tags: ['public']
       responses:
         '200':
           description: OK
@@ -144,8 +139,7 @@ paths:
         type: string
         required: true
     get:
-      summary: Fetch
-      security: []
+      tags: ['public']
       responses:
         '200':
           description: OK
@@ -153,12 +147,11 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-    patch:
-      summary: Update
+    put:
+      tags: ['public']
       responses:
         200:
           description: OK
-    
 definitions:
   Error:
     type: object
@@ -186,3 +179,9 @@ definitions:
         type: string
       displayName:
         type: string
+  Collection:
+    type: object
+  CreateAmiiboInfo:
+    type: object
+  CreateAmiiboSeriesInfo:
+    type: object

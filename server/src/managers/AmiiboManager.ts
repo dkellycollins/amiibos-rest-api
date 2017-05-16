@@ -1,28 +1,28 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {IAmiibo} from '../models/Amiibo';
-import {IAmiiboSeries} from '../models/AmiiboSeries';
-import {IAmiiboSeriesManager} from './AmiiboSeriesManager';
+import {IAmiibo, IAmiiboSeries} from '../models';
+import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from './AmiiboSeriesManager';
 import {TYPES} from '../types';
+
+export interface IAmiiboSearchCriteria {
+  name?: string;
+  series?: string;
+}
 
 export interface ICreateAmiiboInfo {
   name: string;
   displayName: string;
-  releaseDate: string;
-  series: string;
+  releaseDate?: string;
+  series?: ICreateAmiiboSeriesInfo;
 }
 
 export interface IAmiiboManager {
 
-  search(criteria: any): Promise<IAmiibo[]>;
+  search(criteria: IAmiiboSearchCriteria): Promise<IAmiibo[]>;
 
-  fetch(id: string): Promise<IAmiibo>;
+  resolve(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]>;
 
-  create(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]>;
-
-  update(id: string, info: any): Promise<IAmiibo>;
-
-  remove(id: string): Promise<void>;
+  remove(name: string): Promise<void>;
 }
 
 @injectable()

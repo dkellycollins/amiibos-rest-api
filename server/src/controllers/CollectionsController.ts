@@ -11,7 +11,8 @@ import {TYPES} from '../types';
 export class CollectionsController {
 
   constructor(
-    @inject(TYPES.Managers.CollectionManager) private _collectionManager: ICollectionManager) {
+    @inject(TYPES.Managers.CollectionManager) private _collectionManager: ICollectionManager,
+    @inject(TYPES.Managers.AmiiboManager) private _amiiboManager: IAmiiboManager) {
 
   }
 
@@ -32,7 +33,13 @@ export class CollectionsController {
 
   @Get('/:id/amiibos')
   public async getAmiibos(req: Request): Promise<IAmiibo[]> {
-    return Promise.reject('Not Implemented');
+    const collection = await this._collectionManager.fetch(req.params.id);
+    const amiiboNames = _.chain(collection.items)
+      .filter({itemType: 'amiibo'})
+      .map('itemId')
+      .value();
+
+    return await Promise.reject('Not Implemented');
   }
 
   @Put('/:id/amiibos')

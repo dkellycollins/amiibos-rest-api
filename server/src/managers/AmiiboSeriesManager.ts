@@ -3,11 +3,22 @@ import {injectable, inject} from 'inversify';
 import {IAmiiboSeries} from '../models/AmiiboSeries';
 import {TYPES} from '../types';
 
+export interface IAmiiboSeriesSearchCriteria {
+  name?: string;
+}
+
+export interface ICreateAmiiboSeriesInfo {
+  name: string;
+  displayName: string;
+}
+
 export interface IAmiiboSeriesManager {
-  search(name: string): Promise<IAmiiboSeries[]>;
-  fetch(id: string): Promise<IAmiiboSeries>;
-  resolveByName(name: string, displayName: string): Promise<IAmiiboSeries>;
-  remove(id: string): Promise<void>;
+
+  search(criteria: IAmiiboSeriesSearchCriteria): Promise<IAmiiboSeries[]>;
+
+  resolve(infos: ICreateAmiiboSeriesInfo[]): Promise<IAmiiboSeries[]>;
+
+  remove(name: string): Promise<void>;
 }
 
 @injectable()

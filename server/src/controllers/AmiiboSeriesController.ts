@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {Controller, Get, Post, Put, Patch, Delete} from 'inversify-express-utils';
+import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {TYPES} from '../TYPES';
 import {IAmiiboSeriesManager} from '../managers/AmiiboSeriesManager';
@@ -19,22 +19,13 @@ export class AmiiboSeriesController {
     return await this._amiiboSeriesManager.search(req.query.name);
   }
 
-  @Get('/:id')
-  public async retrieve(req: Request): Promise<IAmiiboSeries> {
-    return await this._amiiboSeriesManager.fetch(req.params.id);
+  @Put('/')
+  public async resolve(req: Request): Promise<IAmiiboSeries[]>{
+    return await this._amiiboSeriesManager.resolve(req.body);
   }
 
-  @Patch('/')
-  public async resolve(req: Request): Promise<IAmiiboSeries[]> {
-    const promises = _.map(req.body, (message: any) => {
-      return this._amiiboSeriesManager.resolveByName(message.name, message.displayName);
-    });
-
-    return await Promise.all(promises);
-  }
-
-  @Delete('/:id')
+  @Delete('/:name')
   public async remove(req: Request): Promise<void> {
-    return await this._amiiboSeriesManager.remove(req.params.id); 
+    return await this._amiiboSeriesManager.remove(req.params.name);
   }
 }

@@ -14,27 +14,17 @@ export class AmiibosController {
   }
 
   @Get('/')
-  public async search(): Promise<IAmiibo[]> {
-    return await this._amiiboManager.search({});
+  public async search(req: Request): Promise<IAmiibo[]> {
+    return await this._amiiboManager.search(req.params);
   }
 
-  @Get('/:id')
-  public async fetch(req: Request): Promise<IAmiibo> {
-    return await this._amiiboManager.fetch(req.params.id);
+  @Put('/')
+  public async resolve(req: Request): Promise<IAmiibo[]>{
+    return await this._amiiboManager.resolve(req.body);
   }
 
-  @Post('/')
-  public async create(req: Request): Promise<IAmiibo[]> {
-    return await this._amiiboManager.create(req.body);
-  }
-
-  @Post('/:id')
-  public async update(req: Request): Promise<IAmiibo> {
-    return await this._amiiboManager.update(req.params.id, req.body);
-  }
-
-  @Delete('/:id')
+  @Delete('/:name')
   public async remove(req: Request): Promise<void> {
-    return await this._amiiboManager.remove(req.params.id);
+    return await this._amiiboManager.remove(req.params.name);
   }
 }
