@@ -24,37 +24,35 @@ export interface IAmiiboSeriesManager {
 @injectable()
 export class AmiiboSeriesManager implements IAmiiboSeriesManager {
 
-  constructor(@inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: any) {
+  constructor(
+    @inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: any) {
 
   }
 
-  public async search(name: string): Promise<IAmiiboSeries[]> {
-    return await this._amiiboSeriesModel.findAll({
+  public async search(criteria: IAmiiboSeriesSearchCriteria): Promise<IAmiiboSeries[]> {
+    return await this._amiiboSeriesModel.findAll(criteria);
+  }
+
+  public async resolve(infos: ICreateAmiiboSeriesInfo[]): Promise<IAmiiboSeries[]> {
+    const promises = _.map(infos, async (info) => {
+      var series = await this.search({name: info.name});
+
+      if(_.isEmpty(series)) {
+        return await this._amiiboSeriesModel.create(info);
+      }
+
+      const id = series[0]._id;
+      return await this._amiiboSeriesModel.update(id, {
+        displayName: info.displayName
+      });
+    });
+
+    return await Promise.all(promises);
+  }
+
+  public async remove(name: string): Promise<void> {
+    return await this._amiiboSeriesModel.destroyAll({
       name: name
     });
-  }
-
-  public async fetch(id: string): Promise<IAmiiboSeries> {
-    return await this._amiiboSeriesModel.find(id);
-  }
-
-  public async resolveByName(name: string, displayName: string): Promise<IAmiiboSeries> {
-    const series = await this._amiiboSeriesModel.findAll({name: name});
-
-    if(_.isEmpty(series)) {
-      return await this._amiiboSeriesModel.create({
-        name: name,
-        displayName: displayName
-      });
-    }
-
-    const id = series[0]._id;
-    return await this._amiiboSeriesModel.update(id, {
-      displayName: displayName
-    });
-  }
-
-  public async remove(id: string): Promise<void> {
-    return await this._amiiboSeriesModel.destroy(id);
   }
 }

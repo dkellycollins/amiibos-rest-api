@@ -66,20 +66,20 @@ export class AmiiboManager implements IAmiiboManager {
     });
   }
 
-  private async create(info: ICreateAmiiboInfo, series: IAmiiboSeries): Promise<IAmiibo> {
+  private async create(info: ICreateAmiiboInfo, series?: IAmiiboSeries): Promise<IAmiibo> {
     return await this._amiiboModel.create({
       name: info.name,
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      amiibo_series_id: series._id
+      amiibo_series_id: (!!series) ? series._id : null
     })
   }
 
-  private async update(id:string, info: ICreateAmiiboInfo, series: IAmiiboSeries): Promise<IAmiibo> {
+  private async update(id:string, info: ICreateAmiiboInfo, series?: IAmiiboSeries): Promise<IAmiibo> {
     return await this._amiiboModel.update(id, {
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      amiibo_series_id: series._id
+      amiibo_series_id: (!!series) ? series._id : null
     })
   } 
 }
