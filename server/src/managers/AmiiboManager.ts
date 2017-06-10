@@ -39,25 +39,35 @@ export class AmiiboManager implements IAmiiboManager {
   }
 
   public async resolve(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {
-    const seriesInfo = _.chain(infos)
-      .map('series')
-      .compact()
-      .uniqBy('name')
-      .value();
+    try {
+      const seriesInfo = _.chain(infos)
+        .map('series')
+        .compact()
+        .uniqBy('name')
+        .value();
 
-    const series = await this._amiiboSeriesManager.resolve(seriesInfo);
-    const seriesByName = _.keyBy(series, 'name');
-    const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
-      const amiibos = await this.search({ name: info.name });
-      const amiibo = _.first(amiibos);
-      const series = (!!info.series) ? seriesByName[info.series.name] : null;
+      const series = await this._amiiboSeriesManager.resolve(seriesInfo);
+      const seriesByName = _.keyBy(series, 'name');
+      const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
+        const amiibos = await this.search({ name: info.name });
+        const amiibo = _.first(amiibos);
+        const series = (!!info.series) ? seriesByName[info.series.name] : null;
 
-      return await (!!amiibo) 
-        ? this.update(amiibo._id, info, series) 
-        : this.create(info, series);
-    });
+        return await (!!amiibo) 
+          ? this.update(amiibo._id, info, series) 
+          : this.create(info, series);
+      });
 
-    return await Promise.all(promises);
+      return await Promise.all(promises);
+    }
+    catch(err) {
+      if(!!err.errors) { //Validation error.
+        const validationErrors = _.map(err.errors, (error: any) => `Expected ${error.expected} for ${error.path}. Actual: ${error.actual}`).join(',');
+        throw new Error(validationErrors);
+      }
+
+      throw err;
+    }    
   }
 
   public async remove(name: string): Promise<void> {
@@ -71,7 +81,7 @@ export class AmiiboManager implements IAmiiboManager {
       name: info.name,
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      amiibo_series_id: (!!series) ? series._id : null
+      series: series
     })
   }
 
@@ -79,7 +89,7 @@ export class AmiiboManager implements IAmiiboManager {
     return await this._amiiboModel.update(id, {
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      amiibo_series_id: (!!series) ? series._id : null
+      series: series
     })
   } 
 }
