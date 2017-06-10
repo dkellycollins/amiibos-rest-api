@@ -5,8 +5,11 @@ import {Container, interfaces} from 'inversify';
 import {interfaces as expressUtilInterfaces, TYPE} from 'inversify-express-utils';
 import {TYPES} from './types';
 import {
-  NAMES, 
-  AmiibosController, 
+  NAMES,
+  IMessageFactory, 
+  AmiibosController,
+  AmiiboMessageFactory,
+  IAmiiboMessage, 
   AmiiboSeriesController, 
   CollectionsController,
   OkComputerController
@@ -47,9 +50,19 @@ container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);
 container.bind<IAmiiboSeriesManager>(TYPES.Managers.AmiiboSeriesManager).to(AmiiboSeriesManager);
 container.bind<ICollectionManager>(TYPES.Managers.CollectionManager).to(CollectionManager);
 
+//Messages
+container.bind<IMessageFactory<IAmiibo, IAmiiboMessage>>(TYPES.Controllers.Messages.AmiiboMessageFactory)
+  .to(AmiiboMessageFactory)
+
 //Controllers
-container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiibosController).whenTargetNamed(NAMES.AmiibosControler);
-container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(AmiiboSeriesController).whenTargetNamed(NAMES.AmiiboSeriesController);
-container.bind<expressUtilInterfaces.Controller>(TYPE.Controller).to(OkComputerController).whenTargetNamed(NAMES.OkComputerController);
+container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)
+  .to(AmiibosController)
+  .whenTargetNamed(NAMES.AmiibosControler);
+container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)
+  .to(AmiiboSeriesController)
+  .whenTargetNamed(NAMES.AmiiboSeriesController);
+container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)
+  .to(OkComputerController)
+  .whenTargetNamed(NAMES.OkComputerController);
 
 export default container;

@@ -2,7 +2,12 @@
 export const TYPES = {
   Controllers: {
     AmiiboController: 'AmiiboController',
-    AmiiboSeriesController: 'AmiiboSeriesController'
+    AmiiboSeriesController: 'AmiiboSeriesController',
+    Messages: {
+      AmiiboMessageFactory: 'Controllers.Messages.AmiiboMessageFactory',
+      AmiiboSeriesMessageFactory: 'Controllers.Messages.AmiiboSeriesMessageFactory',
+      CollectionMessageFactory: 'Controllers.Messages.CollectionMessageFactory'
+    }
   },
   Managers: {
     AmiiboManager: 'AmiiboManager', 

@@ -3,6 +3,7 @@ import {IAmiibo} from './Amiibo';
 export interface IAmiiboSeries {
   _id: string;
   name: string;
+  displayName: string;
 
   amiibos: IAmiibo[];
 }

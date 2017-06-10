@@ -4,10 +4,10 @@ export interface IAmiibo {
   _id: string;
   name: string;
   displayName: string;
-  releaseDate: string;
+  releaseDate?: string;
 
-  amiibo_series_id: string;
-  series: IAmiiboSeries;
+  amiibo_series_id?: string;
+  series?: IAmiiboSeries;
 }
 
 export function registerAmiiboModel(container) {
