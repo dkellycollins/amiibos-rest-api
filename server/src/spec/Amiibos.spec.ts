@@ -71,14 +71,16 @@ describe('GET /amiibos', function() {
 
 });
 
-describe('PUT /amiibos', function() {
+describe.only('PUT /amiibos', function() {
 
-  it.only('successfully creates a new amiibo', testSave({
+  it('successfully creates a new amiibo', testSave({
     amiibos: [],
-    request: [{
-      name: 'test_1',
-      displayName: 'test1'
-    }],
+    request: [
+      {
+        name: 'test_1',
+        displayName: 'test1'
+      }
+    ],
     expected: [{
       name: 'test_1',
       displayName: 'test1'
@@ -92,10 +94,12 @@ describe('PUT /amiibos', function() {
         displayName: 'test1'
       }
     ],
-    request: [{
-      name: 'test_1',
-      displayName: 'test1-old'
-    }],
+    request: [
+      {
+        name: 'test_1',
+        displayName: 'test1-old'
+      }
+    ],
     expected: [{
       name: 'test_1',
       displayName: 'test1-old'
@@ -104,10 +108,17 @@ describe('PUT /amiibos', function() {
 
   function testSave(opts) {
     return async function() {
-      //Arrange
+      var promises = _.map(opts.amiibos, (amiibo) => {
+        return request(APP)
+          .put('/amiibos')
+          .send(amiibo)
+          .expect(200);
+      });
+      await Promise.all(promises);
 
       return await request(APP)
-        .put('/amiibos', opts.request)
+        .put('/amiibos')
+        .send(opts.request)
         .expect(opts.expectedStatus || 200, opts.expected);
     }
   }
