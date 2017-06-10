@@ -3,17 +3,20 @@ import * as bodyParser from 'body-parser';
 import container from './container';
 import {Config} from './config';
 
-const server = new InversifyExpressServer(container);
+export const SERVER = buildServer();
+export const APP = SERVER.build();
 
-server.setConfig((app) => {
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-  app.use(bodyParser.json());
+function buildServer() {
+  const server = new InversifyExpressServer(container);
 
-  app.set('environment', Config.server.env);
-});
+  server.setConfig((app) => {
+    app.use(bodyParser.urlencoded({
+      extended: true
+    }));
+    app.use(bodyParser.json());
 
-const app = server.build();
-app.listen(Config.server.port);
-console.log(`Server started on port ${Config.server.port} :)`);
+    app.set('environment', Config.server.env);
+  });
+
+  return server;
+}
