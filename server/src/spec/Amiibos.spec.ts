@@ -2,25 +2,23 @@ import './_Setup.spec';
 import * as _ from 'lodash';
 import * as request from 'supertest';
 import {APP} from '../server';
+import {given_the_amiibos} from './helpers/AmiiboHelpers';
 
 describe('GET /amiibos', function() {
 
-  it('returns an amiibo with the provided name', testSearch({
-    amiibos: [
-      {
-        name: 'test_1',
-        displayName: 'test1'
-      }
-    ],
+  it('returns an amiibo when given a name', testSearch({
+    amiibos: [{
+      name: 'test_1',
+      displayName: 'test1'
+    }],
     query: {
       name: 'test_1'
     },
-    expected: [
-      {
-        name: 'test_1',
-        displayName: 'test1'
-      }
-    ]
+    expected: [{
+      name: 'test_1',
+      displayName: 'test1',
+      releaseDate: null
+    }]
   }));
 
   it('returns all amiibos in a series', testSearch({
@@ -45,24 +43,23 @@ describe('GET /amiibos', function() {
     query: {
       name: 'test_series_1'
     },
-    expected: [
-      {
-        name: 'test_1',
-        displayName: 'test1',
-        series: {
-          name: 'test_series_1',
-          displayName: 'testSeries1'
-        }
-      }
-    ]
+    expected: [{
+      name: 'test_1',
+      displayName: 'test1',
+      series: {
+        name: 'test_series_1',
+        displayName: 'testSeries1'
+      },
+      releaseDate: null
+    }]
   }));
 
   function testSearch(opts) {
     return async function() {
-      //Arrange
+      const r = request(APP);
+      await given_the_amiibos(r, opts.amiibos);
 
       const query = _.map(opts.query, (value, key) => `${key}=${value}`).join('&');
-
       return await request(APP)
         .get(`/amiibos?${query}`)
         .expect(opts.expectedStatus || 200, opts.expected);
@@ -107,11 +104,7 @@ describe('PUT /amiibos', function() {
   function testSave(opts) {
     return async function() {
       const r = request(APP);
-
-      await r.put('/amiibos')
-        .set('Content-Type', 'application/json')
-        .send(opts.amiibos)
-        .expect(200);
+      await given_the_amiibos(r, opts.amiibos);
 
       return await r.put('/amiibos')
         .set('Content-Type', 'application/json')
@@ -146,10 +139,10 @@ describe('DELETE /amiibos/:name', function() {
 
   function testRemove(opts) {
     return async function() {
-      //Arrange
+      const r = request(APP);
+      await given_the_amiibos(r, opts.amiibos);
 
-      return await request(APP)
-        .delete(`/amiibos/${opts.name}`)
+      return await r.delete(`/amiibos/${opts.name}`)
         .expect(opts.expectedStatus || 200);
     }
   }
