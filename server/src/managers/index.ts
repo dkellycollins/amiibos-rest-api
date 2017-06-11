@@ -1,3 +1,6 @@
-export {IAmiiboManager, AmiiboManager} from './AmiiboManager';
-export {IAmiiboSeriesManager, AmiiboSeriesManager} from './AmiiboSeriesManager';
-export {ICollectionManager, CollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from './CollectionManager';
+export {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from './IAmiiboManager';
+export {AmiiboManager} from './AmiiboManager';
+export {IAmiiboSeriesManager, IAmiiboSeriesSearchCriteria, ICreateAmiiboSeriesInfo} from './IAmiiboSeriesManager';
+export {AmiiboSeriesManager} from './AmiiboSeriesManager';
+export {ICollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from './ICollectionManager';
+export {CollectionManager} from './CollectionManager';

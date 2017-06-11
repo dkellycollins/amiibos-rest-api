@@ -1,29 +1,9 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
 import {IAmiibo, IAmiiboSeries} from '../models';
-import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from './AmiiboSeriesManager';
+import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from './IAmiiboManager';
+import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../managers';
 import {TYPES} from '../types';
-
-export interface IAmiiboSearchCriteria {
-  name?: string;
-  series?: string;
-}
-
-export interface ICreateAmiiboInfo {
-  name: string;
-  displayName: string;
-  releaseDate?: string;
-  series?: ICreateAmiiboSeriesInfo;
-}
-
-export interface IAmiiboManager {
-
-  search(criteria: IAmiiboSearchCriteria): Promise<IAmiibo[]>;
-
-  resolve(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]>;
-
-  remove(name: string): Promise<void>;
-}
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
@@ -35,7 +15,20 @@ export class AmiiboManager implements IAmiiboManager {
   }
 
   public async search(criteria: IAmiiboSearchCriteria): Promise<IAmiibo[]> {
-    return await this._amiiboModel.findAll(criteria);
+    let amiibo_series_id = undefined;
+    if(!!criteria.series) {
+      const series = await this._amiiboSeriesManager.search({name: criteria.series});
+      if(series.length === 0) {
+        return [];
+      }
+
+      amiibo_series_id = _.first(series)._id;
+    }
+
+    return await this._amiiboModel.findAll({
+      name: criteria.name,
+      amiibo_series_id: amiibo_series_id
+    });
   }
 
   public async resolve(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {

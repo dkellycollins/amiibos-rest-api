@@ -3,7 +3,7 @@ import {injectable, inject} from 'inversify';
 import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {TYPES} from '../TYPES';
-import {IAmiiboSeriesManager} from '../managers/AmiiboSeriesManager';
+import {IAmiiboSeriesManager} from '../managers';
 import {IAmiiboSeries} from '../models/AmiiboSeries';
 
 @injectable()

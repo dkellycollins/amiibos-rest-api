@@ -3,7 +3,7 @@ import {injectable, inject} from 'inversify';
 import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {IAmiibo} from '../models/amiibo';
-import {IAmiiboManager} from '../managers/AmiiboManager';
+import {IAmiiboManager} from '../managers';
 import {IMessageFactory} from './messages/IMessageFactory';
 import {IAmiiboMessage} from './messages/AmiiboMessageFactory';
 import {TYPES} from '../TYPES';

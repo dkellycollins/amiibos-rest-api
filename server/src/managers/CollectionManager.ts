@@ -2,27 +2,7 @@ import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
 import {ICollection} from '../models';
 import {TYPES} from '../types';
-
-export interface ICreateCollectionInfo {
-  items?: ICollectionItemInfo[];
-}
-
-export interface ICollectionItemInfo {
-  itemType: string;
-  itemId: string;
-}
-
-export interface ICollectionManager {
-
-  fetch(id: string): Promise<ICollection>;
-
-  create(info: ICreateCollectionInfo): Promise<ICollection>;
-
-  remove(id: string): Promise<ICollection>;
-
-  saveItems(id: string, itemInfos: ICollectionItemInfo[]): Promise<ICollection>;
-
-}
+import {ICollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from './ICollectionManager';
 
 @injectable()
 export class CollectionManager implements ICollectionManager {
