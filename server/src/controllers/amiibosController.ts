@@ -30,7 +30,8 @@ export class AmiibosController {
   }
 
   @Delete('/:name')
-  public async remove(req: Request): Promise<void> {
-    return await this._amiiboManager.remove(req.params.name);
+  public async remove(req: Request): Promise<boolean> {
+    await this._amiiboManager.remove(req.params.name);
+    return true;
   }
 }

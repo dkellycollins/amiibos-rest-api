@@ -101,6 +101,26 @@ describe('PUT /amiibos', function() {
     }]
   }));
 
+  it('successfully creates a series for a new amiibos', testSave({
+    amiibos: [],
+    request: [{
+      name: 'test_1',
+      displayName: 'test1',
+      series: {
+        name: 'test_series_1',
+        displayName: 'testSeries1'
+      }
+    }],
+    expected: [{
+      name: 'test_1',
+      displayName: 'test1',
+      series: {
+        name: 'test_series_1',
+        displayName: 'testSeries1'
+      }
+    }]
+  }))
+
   function testSave(opts) {
     return async function() {
       const r = request(APP);
