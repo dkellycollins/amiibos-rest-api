@@ -51,7 +51,7 @@ export class AmiiboManager implements IAmiiboManager {
       const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
         const amiibos = await this.search({ name: info.name });
         const amiibo = _.first(amiibos);
-        const series = (!!info.series) ? seriesByName[info.series.name] : null;
+        const series = (!!info.series) ? seriesByName[info.series.name] : void 0;
 
         return await (!!amiibo) 
           ? this.update(amiibo._id, info, series) 
@@ -87,6 +87,7 @@ export class AmiiboManager implements IAmiiboManager {
 
   private async update(id:string, info: ICreateAmiiboInfo, series?: IAmiiboSeries): Promise<IAmiibo> {
     return await this._amiiboModel.update(id, {
+      name: info.name,
       displayName: info.displayName,
       releaseDate: info.releaseDate,
       series: series

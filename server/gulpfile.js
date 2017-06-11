@@ -84,6 +84,6 @@ function cleanFiles(opts) {
 function runTests(opts) {
   return function() {
     return gulp.src(opts.src, {read: false})
-      .pipe(mocha({reporter: 'nyan'}))
+      .pipe(mocha({reporter: 'list'}))
   }
 }

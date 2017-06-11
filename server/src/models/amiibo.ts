@@ -16,7 +16,7 @@ export function registerAmiiboModel(container) {
     schema: {
       type: 'object',
       properties: {
-        _id: { type: 'string' },
+        //_id: { type: 'string' }, //Adding the id field to the schema causes updates to fail.
         name: { 
           type: 'string',
           minLength: 1,
@@ -32,9 +32,6 @@ export function registerAmiiboModel(container) {
         releaseDate: {
           type: ['string', 'null'],
           pattern: /^\d\d\d\d-\d\d-\d\d$/
-        },
-        amiibo_series_id: {
-          type: 'string' 
         }
       },
       required: ['name', 'displayName']

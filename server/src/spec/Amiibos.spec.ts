@@ -71,7 +71,7 @@ describe('GET /amiibos', function() {
 
 });
 
-describe.only('PUT /amiibos', function() {
+describe('PUT /amiibos', function() {
 
   it('successfully creates a new amiibo', testSave({
     amiibos: [],
@@ -88,41 +88,37 @@ describe.only('PUT /amiibos', function() {
   }));
 
   it('updates an existing amiibo with the same name', testSave({
-    amiibos: [
-      {
-        name: 'test_1',
-        displayName: 'test1'
-      }
-    ],
-    request: [
-      {
-        name: 'test_1',
-        displayName: 'test1-old'
-      }
-    ],
+    amiibos: [{
+      name: 'test_1',
+      displayName: 'test1'
+    }],
+    request: [{
+      name: 'test_1',
+      displayName: 'test1-old',
+      releaseDate: '1970-01-01'
+    }],
     expected: [{
       name: 'test_1',
-      displayName: 'test1-old'
+      displayName: 'test1-old',
+      releaseDate: '1970-01-01'
     }]
   }));
 
   function testSave(opts) {
     return async function() {
-      var promises = _.map(opts.amiibos, (amiibo) => {
-        return request(APP)
-          .put('/amiibos')
-          .send(amiibo)
-          .expect(200);
-      });
-      await Promise.all(promises);
+      const r = request(APP);
 
-      return await request(APP)
-        .put('/amiibos')
+      await r.put('/amiibos')
+        .set('Content-Type', 'application/json')
+        .send(opts.amiibos)
+        .expect(200);
+
+      return await r.put('/amiibos')
+        .set('Content-Type', 'application/json')
         .send(opts.request)
         .expect(opts.expectedStatus || 200, opts.expected);
     }
   }
-
 });
 
 describe('DELETE /amiibos/:name', function() {
