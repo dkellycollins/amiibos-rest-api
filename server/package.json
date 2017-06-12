@@ -6,6 +6,7 @@
   "scripts": {
     "build": "gulp build",
     "start": "node ./dist/index.js",
+    "start:dev": "NODE_ENV=dev npm start",
     "test": "NODE_ENV=test gulp test",
     "gui": "opn http://localhost:1337/ && npm-gui"
   },

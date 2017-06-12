@@ -1,0 +1,187 @@
+swagger: '2.0'
+info:
+  title: Amiibos API
+  description: >
+    A simple REST services that provides data about amiibos 
+    and allows consumers to group amiibos into collections.
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /amiibos:
+    get:
+      description: 'Returns Amiibos matching the provided criteria'
+      tags: ['public']
+      parameters:
+        - name: name
+          description: 'The unique name of the Amiibo'
+          in: query
+          type: string
+          required: false
+        - name: series
+          description: 'The unique name of the Amiibos Series'
+          in: query
+          type: string
+          required: false
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Amiibo'
+        '500':
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: 'Saves the provided Amiibo data'
+      tags: ['admin']
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Amiibo'
+        default:
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+  '/amiibos/{name}':
+    delete:
+      tags: ['admin']
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: SuccessResponse
+          schema: {}
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /amiibo-series:
+    get:
+      tags: ['public']
+      parameters:
+        - name: name
+          in: query
+          type: string
+          required: false
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AmiiboSeries'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags: ['admin']
+      responses:
+        '200':
+          description: SuccessResponse
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AmiiboSeries'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/amiibo-series/{name}':
+    parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+    delete:
+      tags: ['admin']
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/collections': 
+    post: 
+      tags: ['public']
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags: ['public']
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/collections/{id}/amiibos':
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    get:
+      tags: ['public']
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags: ['public']
+      responses:
+        200:
+          description: OK
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  Amiibo:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
+      releaseDate:
+        type: string
+  AmiiboSeries:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
+  Collection:
+    type: object
+  CreateAmiiboInfo:
+    type: object
+  CreateAmiiboSeriesInfo:
+    type: object
