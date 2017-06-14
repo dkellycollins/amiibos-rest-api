@@ -4,8 +4,8 @@ import {MongoDBAdapter} from 'js-data-mongodb';
 import {RedisAdapter} from 'js-data-redis';
 import {AmiiboMapper} from './AmiiboMapper';
 import {AmiiboSeriesMapper} from './AmiiboSeriesMapper';
-import {CollectionMapper} from './collectionMapper';
-import {CollectionItemMapper} from './collectionItemMapper';
+import {CollectionMapper} from './CollectionMapper';
+import {CollectionItemMapper} from './CollectionItemMapper';
 import {TYPES} from '../../types';
 import {IConfig} from '../../config';
 
