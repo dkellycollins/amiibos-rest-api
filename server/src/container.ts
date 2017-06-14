@@ -16,12 +16,12 @@ import {
 } from './controllers';
 import {
   IAmiiboManager,
-  AmiiboManager,
   IAmiiboSeriesManager,
-  AmiiboSeriesManager,
   ICollectionManager,
-  CollectionManager
 } from './managers';
+import {AmiiboManager} from './managers/impl/AmiiboManager';
+import {AmiiboSeriesManager} from './managers/impl/AmiiboSeriesManager';
+import {CollectionManager} from './managers/impl/CollectionManager';
 import {
   IAmiibo,
   IAmiiboSeries,
