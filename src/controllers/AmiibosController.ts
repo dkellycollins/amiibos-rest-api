@@ -6,7 +6,7 @@ import {IAmiibo} from '../models';
 import {IAmiiboManager} from '../managers';
 import {IMessageFactory} from './messages/IMessageFactory';
 import {IAmiiboMessage} from './messages/AmiiboMessageFactory';
-import {TYPES} from '../TYPES';
+import {TYPES} from '../types';
 
 @injectable()
 @Controller('/amiibos')

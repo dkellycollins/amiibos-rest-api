@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
 import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
-import {TYPES} from '../TYPES';
+import {TYPES} from '../types';
 import {IAmiiboSeriesManager} from '../managers';
 import {IAmiiboSeries} from '../models';
 
