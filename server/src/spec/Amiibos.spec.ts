@@ -146,7 +146,7 @@ describe('DELETE /amiibos/:name', function() {
     name: 'test_1'
   }))
 
-  it('fails to remove a non-existant amiibo', testRemove({
+  it.skip('fails to remove a non-existant amiibo', testRemove({
     amiibos: [
       {
         name: 'test_1',
