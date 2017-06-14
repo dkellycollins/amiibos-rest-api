@@ -5,5 +5,10 @@
   "mongo": {
     "debug": false,
     "uri": "mongodb://localhost:32768/amiibos_test"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": "32769",
+    "db": 1
   }
 }

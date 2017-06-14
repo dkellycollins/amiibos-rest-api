@@ -6,7 +6,8 @@ export interface IConfig {
     port: number;
   };
 
-  mongo: any
+  mongo: any,
+  redis: any
 }
 
 const env = process.env.NODE_ENV;

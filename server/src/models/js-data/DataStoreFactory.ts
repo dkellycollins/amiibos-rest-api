@@ -1,6 +1,7 @@
 import {interfaces} from 'inversify';
 import {Container} from 'js-data';
 import {MongoDBAdapter} from 'js-data-mongodb';
+import {RedisAdapter} from 'js-data-redis';
 import {AmiiboMapper} from './AmiiboMapper';
 import {AmiiboSeriesMapper} from './AmiiboSeriesMapper';
 import {CollectionMapper} from './collectionMapper';
@@ -17,8 +18,8 @@ export function dataStoreFactory(context: interfaces.Context): Container {
 
   const container = new Container();
 
-  const adapter = new MongoDBAdapter(config.mongo);
-  container.registerAdapter('mongodb', adapter, {default: true});
+  //container.registerAdapter('mongodb', new MongoDBAdapter(config.mongo), {default: true});
+  container.registerAdapter('redis', new RedisAdapter(config.redis), {default: true});
 
   container.defineMapper('amiibo', AmiiboMapper);
   container.defineMapper('amiiboSeries', AmiiboSeriesMapper);

@@ -5,6 +5,7 @@ import {Request} from 'express';
 import {TYPES} from '../TYPES';
 import {IConfig} from '../config';
 import {MongoClient} from 'mongodb';
+import {RedisClient} from 'redis';
 
 @injectable()
 @Controller('/okcomputer')
@@ -30,5 +31,20 @@ export class OkComputerController {
   public async mongoCheck(): Promise<any> {
     return MongoClient.connect(this._config.mongo.uri)
       .then(db => db.stats());
+  }
+
+  @Get('/redis')
+  public async redisCheck(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const client = new RedisClient(this._config.redis);
+      client.info((err, result) => {
+        if(!!err) {
+          reject(err);
+        }
+        else {
+          resolve(result);
+        }
+      });
+    }); 
   }
 }
