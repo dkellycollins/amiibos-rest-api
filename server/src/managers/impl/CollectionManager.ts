@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {ICollection} from '../models';
-import {TYPES} from '../types';
-import {ICollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from './ICollectionManager';
+import {ICollection} from '../../models';
+import {TYPES} from '../../types';
+import {ICollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from '../ICollectionManager';
 
 @injectable()
 export class CollectionManager implements ICollectionManager {

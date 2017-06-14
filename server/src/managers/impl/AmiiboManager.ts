@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {IAmiibo, IAmiiboSeries} from '../models';
-import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from './IAmiiboManager';
-import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../managers';
-import {TYPES} from '../types';
+import {IAmiibo, IAmiiboSeries} from '../../models';
+import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from '../IAmiiboManager';
+import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../IAmiiboSeriesManager';
+import {TYPES} from '../../types';
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
