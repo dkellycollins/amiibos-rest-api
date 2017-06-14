@@ -21,6 +21,9 @@ export const AmiiboMapper = {
       releaseDate: {
         type: ['string', 'null'],
         pattern: /^\d\d\d\d-\d\d-\d\d$/
+      },
+      amiibo_series_id: {
+        type: ['string', 'null']
       }
     },
     required: ['name', 'displayName']
@@ -30,12 +33,6 @@ export const AmiiboMapper = {
         amiiboSeries: {
           foreignKey: 'amiibo_series_id',
           localField: 'series'
-        }
-      },
-      hasMany: {
-        collection: {
-          foreignKeys: 'amiibo_ids',
-          localField: 'collections'
         }
       }
     }

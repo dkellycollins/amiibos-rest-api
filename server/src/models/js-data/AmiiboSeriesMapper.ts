@@ -24,16 +24,8 @@ export const AmiiboSeriesMapper = {
     hasMany: {
       amiibo: {
         foreignKey: 'amiibo_series_id',
-        localField: 'series'
+        localField: 'amiibos'
       }
     }
-  },
-  /*
-  methods: {
-    beforeDestory: function(id, opts) {
-      //TODO: Doesn't work.
-      return container.destroyAll('amiibo', {amiibo_series_id: id});
-    }
   }
-  */
 };

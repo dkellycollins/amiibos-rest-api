@@ -44,7 +44,7 @@ export class AmiiboManager implements IAmiiboManager {
       const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
         const amiibos = await this.search({ name: info.name });
         const amiibo = _.first(amiibos);
-        const series = (!!info.series) ? seriesByName[info.series.name] : void 0;
+        const series = (!!info.series) ? seriesByName[info.series.name] : null;
 
         return await (!!amiibo) 
           ? this.update(amiibo._id, info, series) 
@@ -74,7 +74,7 @@ export class AmiiboManager implements IAmiiboManager {
       name: info.name,
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      series: series
+      amiibo_series_id: (!!series) ? series._id : undefined
     })
   }
 
@@ -83,7 +83,7 @@ export class AmiiboManager implements IAmiiboManager {
       name: info.name,
       displayName: info.displayName,
       releaseDate: info.releaseDate,
-      series: series
+      amiibo_series_id: (!!series) ? series._id : undefined
     })
   } 
 }

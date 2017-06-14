@@ -44,7 +44,7 @@ gulp.task('clean:ts', cleanFiles({
   src: './dist/**/*.*'
 }));
 
-gulp.task('test', ['build'], runTests({
+gulp.task('test', runTests({
   src: './dist/**/*.spec.js'
 }));
 
