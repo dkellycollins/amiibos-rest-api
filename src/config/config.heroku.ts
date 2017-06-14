@@ -7,3 +7,5 @@ export const CONFIG = {
     "url": process.env.REDIS_URL
   }
 }
+
+console.log(CONFIG);

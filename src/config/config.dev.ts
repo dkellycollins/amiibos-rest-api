@@ -7,7 +7,6 @@ export const CONFIG = {
     "uri": "mongodb://localhost:32772/amiibos"
   },
   "redis": {
-    "host": "localhost",
-    "port": "32769"
+    "url": "redis://localhost:32769"
   }
 }
