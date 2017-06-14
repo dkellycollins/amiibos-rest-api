@@ -1,0 +1,13 @@
+{
+  "server": {
+    "env": "production"
+  },
+  "mongo": {
+    "debug": true,
+    "uri": "mongodb://localhost:32772/amiibos"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": "32769"
+  }
+}
