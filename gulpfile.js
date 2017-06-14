@@ -24,12 +24,7 @@ gulp.task('build:ts:release', compileTypescript({
   dest: './dest'
 }))
 
-gulp.task('build:static', ['build:static:config', 'build:static:docs']);
-
-gulp.task('build:static:config', copyStaticFiles({
-  src: './src/config/*.json',
-  dest: './dist/config'
-}));
+gulp.task('build:static', ['build:static:docs']);
 
 gulp.task('build:static:docs', copyStaticFiles({
   src: './src/docs/**/*',
