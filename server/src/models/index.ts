@@ -1,5 +1,5 @@
-export {IAmiibo} from './Amiibo';
-export {IAmiiboSeries} from './AmiiboSeries';
-export {ICollection} from './Collection';
-export {ICollectionItem} from './CollectionItem';
-export {dataStoreFactory, modelFactory} from './DataStoreFactory';
+export {IModel} from './IModel';
+export {IAmiibo} from './IAmiibo';
+export {IAmiiboSeries} from './IAmiiboSeries';
+export {ICollection} from './ICollection';
+export {ICollectionItem} from './ICollectionItem';

@@ -26,10 +26,9 @@ import {
   IAmiibo,
   IAmiiboSeries,
   ICollection,
-  ICollectionItem,
-  dataStoreFactory,
-  modelFactory
+  ICollectionItem
 } from './models';
+import {dataStoreFactory, modelFactory} from './models/js-data/DataStoreFactory';
 import {IConfig, Config} from './config';
 
 promiseFinally.shim();

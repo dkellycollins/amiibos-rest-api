@@ -1,13 +1,5 @@
-import {ICollectionItem} from './CollectionItem';
-
-export interface ICollection {
-  _id: string;
-
-  items: ICollectionItem[];
-}
-
-export function registerCollectionModel(container) {
-  container.defineMapper('collection', {
+export var CollectionMapper = {
+    name: 'collection',
     idAttribute: '_id',
     schema: {
       type: 'object',
@@ -24,4 +16,4 @@ export function registerCollectionModel(container) {
         }
       }
   });
-}
+};
