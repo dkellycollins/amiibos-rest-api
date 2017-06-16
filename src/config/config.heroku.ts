@@ -4,7 +4,7 @@ const redisUrl = url.parse(process.env.REDIS_URL)
 export const CONFIG = {
   server: {
     env: "production",
-    port: process.env.PORT || 3000
+    port: process.env.PORT
   },
   mongo: {},
   redis: {
@@ -14,6 +14,3 @@ export const CONFIG = {
     db: redisUrl.db || 0
   }
 }
-
-console.log(process.env);
-console.log(CONFIG);
