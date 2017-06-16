@@ -1,11 +1,11 @@
+import * as url from 'redis-url';
+
 export const CONFIG = {
   "server": {
     "env": "production"
   },
   "mongo": {},
-  "redis": {
-    "url": process.env.REDIS_URL
-  }
+  "redis": url.parse(process.env.REDIS_URL)
 }
 
 console.log(CONFIG);
