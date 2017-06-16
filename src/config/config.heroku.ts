@@ -7,7 +7,7 @@ export const CONFIG = {
   },
   "mongo": {},
   "redis": {
-    host: redisUrl.host,
+    host: redisUrl.hostname,
     port: redisUrl.port,
     password: redisUrl.password,
     db: redisUrl.db
