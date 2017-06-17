@@ -5,6 +5,7 @@ import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from '../IAmii
 import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../IAmiiboSeriesManager';
 import {TYPES} from '../../types';
 import {Model} from 'sequelize';
+import {ifNotNull} from '../../helpers';
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
@@ -16,20 +17,21 @@ export class AmiiboManager implements IAmiiboManager {
   }
 
   public async search(criteria: IAmiiboSearchCriteria): Promise<IAmiibo[]> {
-    let amiibo_series_id = undefined;
-    if(!!criteria.series) {
-      const series = await this._amiiboSeriesManager.search({name: criteria.series});
-      if(series.length === 0) {
+    let amiiboSeriesId = null;
+    if(!_.isUndefined(criteria.series)) {
+      amiiboSeriesId = await this.getAmiiboSeriesId(criteria.series);
+
+      if(amiiboSeriesId === null) {
         return [];
       }
-
-      amiibo_series_id = _.first(series).id;
     }
 
+    const query = {};
+    ifNotNull(criteria.name, (name) => query['name'] = name);
+    ifNotNull(amiiboSeriesId, (id) => query['amiiboSeriesId'] = id);
+
     return await this._amiiboModel.findAll({
-      where: {
-        name: criteria.name
-      }
+      where: query
     });
   }
 
@@ -76,5 +78,12 @@ export class AmiiboManager implements IAmiiboManager {
     await this._amiiboModel.destroy({
       where: {name: name}
     });
+  }
+
+  private async getAmiiboSeriesId(name: string): Promise<number> {
+    if(!name) return null;
+
+    const series = await this._amiiboSeriesManager.search({name: name});
+    return (series.length > 0) ?  _.first(series).id : null;
   }
 }

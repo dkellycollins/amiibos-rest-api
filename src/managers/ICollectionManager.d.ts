@@ -11,12 +11,12 @@ export interface ICollectionItemInfo {
 
 export interface ICollectionManager {
 
-  fetch(id: string): Promise<ICollection>;
+  fetch(id: number): Promise<ICollection>;
 
   create(info: ICreateCollectionInfo): Promise<ICollection>;
 
-  remove(id: string): Promise<void>;
+  remove(id: number): Promise<void>;
 
-  saveItems(id: string, itemInfos: ICollectionItemInfo[]): Promise<ICollection>;
+  saveItems(id: number, itemInfos: ICollectionItemInfo[]): Promise<ICollection>;
 
 }

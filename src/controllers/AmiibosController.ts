@@ -19,7 +19,7 @@ export class AmiibosController {
 
   @Get('/')
   public async search(req: Request): Promise<IAmiiboMessage[]> {
-    const searchResults = await this._amiiboManager.search(req.params);
+    const searchResults = await this._amiiboManager.search(req.query);
     return await this._amiiboMessageFactory.toMessages(searchResults);
   }
 

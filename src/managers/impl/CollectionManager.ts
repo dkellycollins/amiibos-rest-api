@@ -14,7 +14,7 @@ export class CollectionManager implements ICollectionManager {
 
   }
 
-  public async fetch(id: string): Promise<ICollection> {
+  public async fetch(id: number): Promise<ICollection> {
     return await this._collectionModel.find(id);
   }
 
@@ -28,13 +28,13 @@ export class CollectionManager implements ICollectionManager {
     return collection;
   }
 
-  public async remove(id: string): Promise<void> {
+  public async remove(id: number): Promise<void> {
     await this._collectionModel.destroy({
       where: {id: id}
     });
   }
 
-  public async saveItems(id: string, itemInfos: ICollectionItemInfo[]): Promise<ICollection> {
+  public async saveItems(id: number, itemInfos: ICollectionItemInfo[]): Promise<ICollection> {
     throw new Error('Not Implemented');
   }
 }
