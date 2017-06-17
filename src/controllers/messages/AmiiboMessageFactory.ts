@@ -22,19 +22,21 @@ export class AmiiboMessageFactory implements IMessageFactory<IAmiibo, IAmiiboMes
 
   public async toMessages(models: IAmiibo[]): Promise<IAmiiboMessage[]> {
     return _.map(models, (model) => {
-      const series = (!!model.series)
-        ? {
-          name: model.series.name,
-          displayName: model.series.displayName
-        }
-        : undefined;
-
-      return {
+      const message = {
         name: model.name,
         displayName: model.displayName,
-        releaseDate: model.releaseDate,
-        series: series
-      };
+        releaseDate: model.releaseDate
+      }
+
+      const series = model.getAmiiboSeries();
+      if(!!series) {
+        message['series'] = {
+          name: series.name,
+          displayName: series.displayName
+        }
+      }
+
+      return message;
     });
   }
 }

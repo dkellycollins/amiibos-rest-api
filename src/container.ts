@@ -34,6 +34,7 @@ import {amiiboSeriesModelFactory} from './models/sequelize/AmiiboSeriesModelFact
 import {collectionItemModelFactory} from './models/sequelize/CollectionItemModelFactory';
 import {collectionModelFactory} from './models/sequelize/CollectionModelFactory';
 import {IConfig, Config} from './config';
+import {Sequelize, Model} from 'sequelize';
 
 promiseFinally.shim();
 
@@ -42,11 +43,11 @@ const container = new Container({ defaultScope: "Singleton" });
 container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
 
 //Models
-container.bind<any>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
-container.bind<any>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(amiiboSeriesModelFactory);
-container.bind<any>(TYPES.Models.AmiiboModel).toDynamicValue(amiiboModelFactory);
-container.bind<any>(TYPES.Models.CollectionModel).toDynamicValue(collectionModelFactory);
-container.bind<any>(TYPES.Models.CollectionItemModel).toDynamicValue(collectionItemModelFactory);
+container.bind<Sequelize>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
+container.bind<Model<IAmiiboSeries, any>>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(<any>amiiboSeriesModelFactory);
+container.bind<Model<IAmiibo, any>>(TYPES.Models.AmiiboModel).toDynamicValue(<any>amiiboModelFactory);
+container.bind<Model<ICollection, any>>(TYPES.Models.CollectionModel).toDynamicValue(<any>collectionModelFactory);
+container.bind<Model<ICollectionItem, any>>(TYPES.Models.CollectionItemModel).toDynamicValue(<any>collectionItemModelFactory);
 
 //Managers
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);

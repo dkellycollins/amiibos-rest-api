@@ -1,15 +1,16 @@
 import * as _ from 'lodash';
 import {injectable, inject} from 'inversify';
-import {ICollection} from '../../models';
+import {ICollection, ICollectionItem} from '../../models';
 import {TYPES} from '../../types';
 import {ICollectionManager, ICreateCollectionInfo, ICollectionItemInfo} from '../ICollectionManager';
+import {Model} from 'sequelize';
 
 @injectable()
 export class CollectionManager implements ICollectionManager {
 
   constructor(
-    @inject(TYPES.Models.CollectionModel) private _collectionModel: any,
-    @inject(TYPES.Models.CollectionItemModel) private _collectionItemModel: any) {
+    @inject(TYPES.Models.CollectionModel) private _collectionModel: Model<ICollection, any>,
+    @inject(TYPES.Models.CollectionItemModel) private _collectionItemModel: Model<ICollectionItem, any>) {
 
   }
 
@@ -21,28 +22,19 @@ export class CollectionManager implements ICollectionManager {
     const collection = await this._collectionModel.create(info);
 
     if(!_.isEmpty(info.items)) {
-      await this.saveItems(collection._id, info.items);
+      await this.saveItems(collection.id, info.items);
     }
 
     return collection;
   }
 
-  public async remove(id: string): Promise<ICollection> {
-    return await this._collectionModel.destroy(id);
+  public async remove(id: string): Promise<void> {
+    await this._collectionModel.destroy({
+      where: {id: id}
+    });
   }
 
   public async saveItems(id: string, itemInfos: ICollectionItemInfo[]): Promise<ICollection> {
-    const collectionItems = await this._collectionItemModel.findAll({collection_id: id});
-    const collectionItemIds = _.map(collectionItems, '_id');
-    await this._collectionItemModel.destroyAll(collectionItemIds);
-
-    const newItemInfos = _.map(itemInfos, (info) => {
-      return _.merge({}, info, {
-        collection_id: id
-      });
-    });
-    await this._collectionItemModel.createMany(newItemInfos);
-
-    return await this._collectionModel.find(id);
+    throw new Error('Not Implemented');
   }
 }

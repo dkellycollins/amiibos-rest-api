@@ -3,39 +3,48 @@ import {injectable, inject} from 'inversify';
 import {IAmiiboSeries} from '../../models';
 import {TYPES} from '../../types';
 import {IAmiiboSeriesManager, IAmiiboSeriesSearchCriteria, ICreateAmiiboSeriesInfo} from '../IAmiiboSeriesManager';
+import {Model} from 'sequelize';
 
 @injectable()
 export class AmiiboSeriesManager implements IAmiiboSeriesManager {
 
   constructor(
-    @inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: any) {
+    @inject(TYPES.Models.AmiiboSeriesModel) private _amiiboSeriesModel: Model<IAmiiboSeries, any>) {
 
   }
 
   public async search(criteria: IAmiiboSeriesSearchCriteria): Promise<IAmiiboSeries[]> {
-    return await this._amiiboSeriesModel.findAll(criteria);
+    return await this._amiiboSeriesModel.findAll({
+      where: {
+        name: criteria.name
+      }
+    });
   }
 
   public async resolve(infos: ICreateAmiiboSeriesInfo[]): Promise<IAmiiboSeries[]> {
     const promises = _.map(infos, async (info) => {
-      var series = await this.search({name: info.name});
+      const result = await this._amiiboSeriesModel.findOrBuild({
+        where: {name: info.name},
+        defaults: {
+          name: info.name,
+          displayName: info.displayName
+        }
+      });
+      const series = result[0];
 
-      if(_.isEmpty(series)) {
-        return await this._amiiboSeriesModel.create(info);
-      }
-
-      const id = series[0]._id;
-      return await this._amiiboSeriesModel.update(id, {
+      series.set({
         displayName: info.displayName
       });
+
+      return <any>(await series.save());
     });
 
     return await Promise.all(promises);
   }
 
   public async remove(name: string): Promise<void> {
-    return await this._amiiboSeriesModel.destroyAll({
-      name: name
+    await this._amiiboSeriesModel.destroy({
+      where: { name: name }
     });
   }
 }

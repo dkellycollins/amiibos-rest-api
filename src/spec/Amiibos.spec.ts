@@ -80,7 +80,8 @@ describe('PUT /amiibos', function() {
     ],
     expected: [{
       name: 'test_1',
-      displayName: 'test1'
+      displayName: 'test1',
+      releaseDate: null
     }]
   }));
 

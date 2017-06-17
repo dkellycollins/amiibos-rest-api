@@ -1,10 +1,10 @@
 import {IModel, IAmiiboSeries} from '../models';
 
-export interface IAmiibo extends IModel {
+export interface IAmiibo extends IModel<any> {
   name: string;
   displayName: string;
   releaseDate?: string;
 
-  amiibo_series_id?: string;
-  series?: IAmiiboSeries;
+  getAmiiboSeries(): IAmiiboSeries;
+  setAmiiboSeries(series: IAmiiboSeries): void;
 }

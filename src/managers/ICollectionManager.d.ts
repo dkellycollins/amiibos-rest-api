@@ -15,7 +15,7 @@ export interface ICollectionManager {
 
   create(info: ICreateCollectionInfo): Promise<ICollection>;
 
-  remove(id: string): Promise<ICollection>;
+  remove(id: string): Promise<void>;
 
   saveItems(id: string, itemInfos: ICollectionItemInfo[]): Promise<ICollection>;
 

@@ -4,12 +4,13 @@ import {IAmiibo, IAmiiboSeries} from '../../models';
 import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from '../IAmiiboManager';
 import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../IAmiiboSeriesManager';
 import {TYPES} from '../../types';
+import {Model} from 'sequelize';
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
 
   constructor(
-    @inject(TYPES.Models.AmiiboModel) private _amiiboModel: any,
+    @inject(TYPES.Models.AmiiboModel) private _amiiboModel: Model<IAmiibo, any>,
     @inject(TYPES.Managers.AmiiboSeriesManager) private _amiiboSeriesManager: IAmiiboSeriesManager) {
 
   }
@@ -22,12 +23,13 @@ export class AmiiboManager implements IAmiiboManager {
         return [];
       }
 
-      amiibo_series_id = _.first(series)._id;
+      amiibo_series_id = _.first(series).id;
     }
 
     return await this._amiiboModel.findAll({
-      name: criteria.name,
-      amiibo_series_id: amiibo_series_id
+      where: {
+        name: criteria.name
+      }
     });
   }
 
@@ -42,13 +44,25 @@ export class AmiiboManager implements IAmiiboManager {
       const series = await this._amiiboSeriesManager.resolve(seriesInfo);
       const seriesByName = _.keyBy(series, 'name');
       const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
-        const amiibos = await this.search({ name: info.name });
-        const amiibo = _.first(amiibos);
         const series = (!!info.series) ? seriesByName[info.series.name] : null;
 
-        return await (!!amiibo) 
-          ? this.update(amiibo._id, info, series) 
-          : this.create(info, series);
+        const result = await this._amiiboModel.findOrBuild({
+          where: { name: info.name},
+          defaults: {
+            name: info.name,
+            displayName: info.displayName,
+            releaseDate: info.releaseDate
+          }
+        });
+        const amiibo = result[0];
+
+        amiibo.set({
+          displayName: info.displayName,
+          releastDate: info.releaseDate
+        });
+        amiibo.setAmiiboSeries(series);
+
+        return <any>(await amiibo.save());
       });
 
       return await Promise.all(promises);
@@ -64,26 +78,8 @@ export class AmiiboManager implements IAmiiboManager {
   }
 
   public async remove(name: string): Promise<void> {
-    return await this._amiiboModel.destroyAll({
-      name: name
+    await this._amiiboModel.destroy({
+      where: {name: name}
     });
   }
-
-  private async create(info: ICreateAmiiboInfo, series?: IAmiiboSeries): Promise<IAmiibo> {
-    return await this._amiiboModel.create({
-      name: info.name,
-      displayName: info.displayName,
-      releaseDate: info.releaseDate,
-      amiibo_series_id: (!!series) ? series._id : undefined
-    })
-  }
-
-  private async update(id:string, info: ICreateAmiiboInfo, series?: IAmiiboSeries): Promise<IAmiibo> {
-    return await this._amiiboModel.update(id, {
-      name: info.name,
-      displayName: info.displayName,
-      releaseDate: info.releaseDate,
-      amiibo_series_id: (!!series) ? series._id : undefined
-    })
-  } 
 }
