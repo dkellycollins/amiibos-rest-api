@@ -5,6 +5,5 @@ export interface IAmiibo extends IModel<any> {
   displayName: string;
   releaseDate?: string;
 
-  getAmiiboSeries(): IAmiiboSeries;
-  setAmiiboSeries(series: IAmiiboSeries): void;
+  getAmiiboSeries(): Promise<IAmiiboSeries>;
 }

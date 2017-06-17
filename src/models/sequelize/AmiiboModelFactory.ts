@@ -23,7 +23,10 @@ export function amiiboModelFactory(context: interfaces.Context): Sequelize.Model
     }
   });
 
-  amiiboModel.belongsTo(amiiboSeriesModel);
+  amiiboModel.belongsTo(amiiboSeriesModel, {
+    as: 'AmiiboSeries',
+    foreignKey: 'amiiboSeriesId'
+  });
 
   return amiiboModel;
 }

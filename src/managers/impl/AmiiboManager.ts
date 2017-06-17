@@ -44,23 +44,18 @@ export class AmiiboManager implements IAmiiboManager {
       const series = await this._amiiboSeriesManager.resolve(seriesInfo);
       const seriesByName = _.keyBy(series, 'name');
       const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
-        const series = (!!info.series) ? seriesByName[info.series.name] : null;
+        const seriesId = (!!info.series) ? seriesByName[info.series.name].id : null;
 
         const result = await this._amiiboModel.findOrBuild({
-          where: { name: info.name},
-          defaults: {
-            name: info.name,
-            displayName: info.displayName,
-            releaseDate: info.releaseDate
-          }
+          where: { name: info.name}
         });
         const amiibo = result[0];
 
         amiibo.set({
           displayName: info.displayName,
-          releastDate: info.releaseDate
+          releastDate: info.releaseDate,
+          amiiboSeriesId: seriesId
         });
-        amiibo.setAmiiboSeries(series);
 
         return <any>(await amiibo.save());
       });
