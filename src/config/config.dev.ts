@@ -8,5 +8,8 @@ export const CONFIG = {
   },
   "redis": {
     "url": "redis://localhost:32769"
+  },
+  sequelize: {
+    url: 'postgres://localhost:32769/amiibos'
   }
 }

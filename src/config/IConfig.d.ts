@@ -5,5 +5,8 @@ export interface IConfig {
   };
 
   mongo: any,
-  redis: any
+  redis: any,
+  sequelize: {
+    url: string
+  }
 }

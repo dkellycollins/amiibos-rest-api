@@ -12,5 +12,8 @@ export const CONFIG = {
     port: redisUrl.port,
     password: redisUrl.password,
     db: redisUrl.db || 0
+  },
+  sequelize: {
+    url: process.env.DATABASE_URL
   }
 }

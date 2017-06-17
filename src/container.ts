@@ -28,7 +28,11 @@ import {
   ICollection,
   ICollectionItem
 } from './models';
-import {dataStoreFactory, modelFactory} from './models/js-data/DataStoreFactory';
+import {dataStoreFactory} from './models/sequelize/DataStoreFactory';
+import {amiiboModelFactory} from './models/sequelize/AmiiboModelFactory';
+import {amiiboSeriesModelFactory} from './models/sequelize/AmiiboSeriesModelFactory';
+import {collectionItemModelFactory} from './models/sequelize/CollectionItemModelFactory';
+import {collectionModelFactory} from './models/sequelize/CollectionModelFactory';
 import {IConfig, Config} from './config';
 
 promiseFinally.shim();
@@ -39,10 +43,10 @@ container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
 
 //Models
 container.bind<any>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
-container.bind<any>(TYPES.Models.AmiiboModel).toDynamicValue(_.partial(modelFactory, 'amiibo'));
-container.bind<any>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(_.partial(modelFactory, 'amiiboSeries'));
-container.bind<any>(TYPES.Models.CollectionModel).toDynamicValue(_.partial(modelFactory, 'collection'));
-container.bind<any>(TYPES.Models.CollectionItemModel).toDynamicValue(_.partial(modelFactory, 'collectionItem'));
+container.bind<any>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(amiiboSeriesModelFactory);
+container.bind<any>(TYPES.Models.AmiiboModel).toDynamicValue(amiiboModelFactory);
+container.bind<any>(TYPES.Models.CollectionModel).toDynamicValue(collectionModelFactory);
+container.bind<any>(TYPES.Models.CollectionItemModel).toDynamicValue(collectionItemModelFactory);
 
 //Managers
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);

@@ -6,12 +6,15 @@ import {TYPES} from '../types';
 import {IConfig} from '../config';
 import {MongoClient} from 'mongodb';
 import {RedisClient} from 'redis';
+import {Sequelize} from 'Sequelize';
 
 @injectable()
 @Controller('/okcomputer')
 export class OkComputerController {
 
-  constructor(@inject(TYPES.Config) private _config: IConfig) {
+  constructor(
+    @inject(TYPES.Config) private _config: IConfig,
+    @inject(TYPES.Models.DataStore) private _sql: Sequelize) {
 
   }
 
@@ -46,5 +49,11 @@ export class OkComputerController {
         }
       });
     }); 
+  }
+
+  @Get('/sql')
+  public async sqlCheck(): Promise<boolean> {
+    await this._sql.authenticate();
+    return true;
   }
 }
