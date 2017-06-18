@@ -1,2 +1,2 @@
 
-export {ifNotNull} from './ifNotNull';
+export {ifNotNull} from './IfNotNull';
