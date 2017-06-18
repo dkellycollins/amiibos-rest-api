@@ -27,8 +27,9 @@ export class CollectionsController {
   }
 
   @Delete('/:id')
-  public async remove(req: Request): Promise<ICollection> {
-    return await this._collectionManager.remove(req.params.id)
+  public async remove(req: Request): Promise<boolean> {
+    await this._collectionManager.remove(req.params.id)
+    return true;
   }
 
   @Get('/:id/amiibos')
