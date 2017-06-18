@@ -46,7 +46,7 @@ describe('GET /amiibos', function() {
       }
     ],
     query: {
-      name: 'test_series_1'
+      series: 'test_series_1'
     },
     expected: [{
       name: 'test_1',
@@ -74,7 +74,7 @@ describe('GET /amiibos', function() {
     expected: []
   }));
 
-  it('does not return results for a non-exitant series', testSearch({
+  it('does not return results for a non-existant series', testSearch({
     amiibos: [{
       name: 'test_1',
       displayName: 'test1',
