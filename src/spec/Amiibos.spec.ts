@@ -26,7 +26,7 @@ describe('GET /amiibos', function() {
     }]
   }));
 
-  it.only('returns all amiibos in a series', testSearch({
+  it('returns all amiibos in a series', testSearch({
     amiibos: [
       {
         name: 'test_1',

@@ -12,6 +12,9 @@ export const CONFIG = {
     db: 1
   },
   sequelize: {
-    url: 'postgres://postgres@localhost:32769/amiibos_test'
+    url: 'postgres://postgres@localhost:32769/amiibos_test',
+    options: {
+      logging: false
+    }
   }
 }

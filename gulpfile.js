@@ -5,6 +5,7 @@ var runSequence = require('run-sequence');
 var tslint = require('gulp-tslint');
 var mocha = require('gulp-mocha');
 var babel = require('gulp-babel');
+var sequelize = require('sequelize');
 
 gulp.task('build', function(done) {
   runSequence(
@@ -41,6 +42,10 @@ gulp.task('clean:ts', cleanFiles({
 
 gulp.task('test', runTests({
   src: './dist/**/*.spec.js'
+}));
+
+gulp.task('db:reset:dev', syncDb({
+  url: 'postgres://postgres@localhost:32769/amiibos'
 }));
 
 function copyStaticFiles(opts) {
@@ -87,5 +92,14 @@ function runTests(opts) {
   return function() {
     return gulp.src(opts.src, {read: false})
       .pipe(mocha({reporter: 'list'}))
+  }
+}
+
+function syncDb(opts) {
+  return function(done) {
+    var db = new sequelize(opts.url);
+    db.drop()
+      .then(function() { return db.sync(); })
+      .then(done);
   }
 }

@@ -10,6 +10,9 @@ export const CONFIG = {
     "url": "redis://localhost:32769"
   },
   sequelize: {
-    url: 'postgres://localhost:32769/amiibos'
+    url: 'postgres://postgres@localhost:32769/amiibos',
+    options: {
+      benchmark: true
+    }
   }
 }

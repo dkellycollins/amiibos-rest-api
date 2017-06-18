@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "gulp build",
     "build": "gulp build",
+    "db:reset:dev": "gulp db:reset:dev",
+    "gui": "opn http://localhost:1337/ && npm-gui",
+    "postinstall": "gulp build",
     "start": "node ./dist/index.js",
     "start:dev": "NODE_ENV=dev npm start",
-    "test": "NODE_ENV=test gulp test",
-    "gui": "opn http://localhost:1337/ && npm-gui"
+    "test": "NODE_ENV=test gulp test"
   },
   "author": "",
   "license": "MIT",
@@ -58,6 +59,7 @@
     "js-data-mongodb": "^1.0.0-rc.2",
     "js-data-redis": "^3.0.0-beta.2",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.28",
     "pg": "^6.2.4",
     "promise.prototype.finally": "^2.0.1",

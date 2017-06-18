@@ -6,6 +6,7 @@ import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../IAmiiboSeriesMan
 import {TYPES} from '../../types';
 import {Model} from 'sequelize';
 import {ifNotNull} from '../../helpers';
+import * as moment from 'moment';
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
@@ -55,7 +56,7 @@ export class AmiiboManager implements IAmiiboManager {
 
         amiibo.set({
           displayName: info.displayName,
-          releastDate: info.releaseDate,
+          releaseDate: ifNotNull(info.releaseDate, (date) => moment(date, 'YYYY-MM-DD')),
           amiiboSeriesId: seriesId
         });
 
