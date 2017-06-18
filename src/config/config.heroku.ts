@@ -6,7 +6,6 @@ export const CONFIG = {
     env: "production",
     port: process.env.PORT
   },
-  mongo: {},
   redis: {
     host: redisUrl.hostname,
     port: redisUrl.port,

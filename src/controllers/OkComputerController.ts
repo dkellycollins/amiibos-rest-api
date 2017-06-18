@@ -4,7 +4,6 @@ import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {TYPES} from '../types';
 import {IConfig} from '../config';
-import {MongoClient} from 'mongodb';
 import {RedisClient} from 'redis';
 import {Sequelize} from 'Sequelize';
 
@@ -28,12 +27,6 @@ export class OkComputerController {
     return {
       env: this._config.server.env
     };
-  }
-
-  @Get('/mongo')
-  public async mongoCheck(): Promise<any> {
-    return MongoClient.connect(this._config.mongo.uri)
-      .then(db => db.stats());
   }
 
   @Get('/redis')

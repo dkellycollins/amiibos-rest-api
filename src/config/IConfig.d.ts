@@ -4,8 +4,8 @@ export interface IConfig {
     port: number;
   };
 
-  mongo: any;
   redis: any;
+  
   sequelize: {
     url: string,
     options: any

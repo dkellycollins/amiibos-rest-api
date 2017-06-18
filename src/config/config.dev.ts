@@ -1,16 +1,14 @@
 export const CONFIG = {
-  "server": {
-    "env": "development"
+  server: {
+    env: "development"
   },
-  "mongo": {
-    "debug": true,
-    "uri": "mongodb://localhost:32772/amiibos"
+
+  redis: {
+    url: "redis://localhost:32769"
   },
-  "redis": {
-    "url": "redis://localhost:32769"
-  },
+
   sequelize: {
-    url: 'postgres://postgres@localhost:32769/amiibos',
+    url: 'postgres://postgres@localhost:32768/amiibos',
     options: {
       benchmark: true
     }

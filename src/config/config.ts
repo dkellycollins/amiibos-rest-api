@@ -1,8 +1,7 @@
 export const CONFIG = {
-  "server": {
-    "port": 3000
+  server: {
+    port: 3000
   },
-  "mongo": {},
-  "redis": {},
+  redis: {},
   sequelize: {}
 }
