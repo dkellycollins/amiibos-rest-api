@@ -13,6 +13,9 @@ export const CONFIG = {
     db: redisUrl.db || 0
   },
   sequelize: {
-    url: process.env.DATABASE_URL
+    url: process.env.DATABASE_URL,
+    options: {
+      logging: false
+    }
   }
 }
