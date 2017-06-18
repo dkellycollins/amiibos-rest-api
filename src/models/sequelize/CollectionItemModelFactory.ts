@@ -1,5 +1,5 @@
 import {interfaces} from 'inversify';
-import * as Sequelize from 'Sequelize';
+import * as Sequelize from 'sequelize';
 import {TYPES} from '../../types';
 import {ICollectionItem} from '../ICollectionItem';
 

@@ -5,7 +5,7 @@ import {Request} from 'express';
 import {TYPES} from '../types';
 import {IConfig} from '../config';
 import {RedisClient} from 'redis';
-import {Sequelize} from 'Sequelize';
+import {Sequelize} from 'sequelize';
 
 @injectable()
 @Controller('/okcomputer')
