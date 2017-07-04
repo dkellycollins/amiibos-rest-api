@@ -1,4 +1,5 @@
 swagger: '2.0'
+host: amiibos-api.herokuapp.com
 info:
   title: Amiibos API
   description: >
@@ -7,6 +8,7 @@ info:
   version: 1.0.0
 schemes:
   - https
+  - http
 produces:
   - application/json
 paths:
@@ -36,7 +38,7 @@ paths:
           description: 'Server Error'
           schema:
             $ref: '#/definitions/Error'
-    put:
+    patch:
       description: 'Saves the provided Amiibo data'
       tags: ['admin']
       responses:
@@ -85,7 +87,7 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-    put:
+    patch:
       tags: ['admin']
       responses:
         '200':
@@ -147,7 +149,7 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-    put:
+    patch:
       tags: ['public']
       responses:
         200:
