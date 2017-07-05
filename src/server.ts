@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import container from './container';
 import {Config} from './config';
+import {namespace} from './cls';
 
 export const SERVER = buildServer();
 export const APP = SERVER.build();
@@ -13,6 +14,7 @@ function buildServer() {
 
   server.setConfig((app) => {
     app.set('environment', Config.server.env);
+    app.set('namespace', namespace);
 
     app.use(bodyParser.urlencoded({
       extended: true

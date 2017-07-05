@@ -4,14 +4,15 @@ import {IAmiibo, IAmiiboSeries} from '../../models';
 import {IAmiiboManager, IAmiiboSearchCriteria, ICreateAmiiboInfo} from '../IAmiiboManager';
 import {ICreateAmiiboSeriesInfo, IAmiiboSeriesManager} from '../IAmiiboSeriesManager';
 import {TYPES} from '../../types';
-import {Model} from 'sequelize';
 import {ifNotNull} from '../../helpers';
 import * as moment from 'moment';
+import {Sequelize, Model} from 'sequelize';
 
 @injectable()
 export class AmiiboManager implements IAmiiboManager {
 
   constructor(
+    @inject(TYPES.Models.DataStore) private _sql: Sequelize,
     @inject(TYPES.Models.AmiiboModel) private _amiiboModel: Model<IAmiibo, any>,
     @inject(TYPES.Managers.AmiiboSeriesManager) private _amiiboSeriesManager: IAmiiboSeriesManager) {
 
@@ -37,42 +38,44 @@ export class AmiiboManager implements IAmiiboManager {
   }
 
   public async resolve(infos: ICreateAmiiboInfo[]): Promise<IAmiibo[]> {
-    try {
-      const seriesInfo = _.chain(infos)
-        .map('series')
-        .compact()
-        .uniqBy('name')
-        .value();
+    return await this._sql.transaction(async (transaction) => {
+      try {
+        const seriesInfo = _.chain(infos)
+          .map('series')
+          .compact()
+          .uniqBy('name')
+          .value();
 
-      const series = await this._amiiboSeriesManager.resolve(seriesInfo);
-      const seriesByName = _.keyBy(series, 'name');
-      const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
-        const seriesId = (!!info.series) ? seriesByName[info.series.name].id : null;
+        const series = await this._amiiboSeriesManager.resolve(seriesInfo);
+        const seriesByName = _.keyBy(series, 'name');
+        const promises = _.map(infos, async (info: ICreateAmiiboInfo) => {
+          const seriesId = (!!info.series) ? seriesByName[info.series.name].id : null;
 
-        const result = await this._amiiboModel.findOrBuild({
-          where: { name: info.name}
+          const result = await this._amiiboModel.findOrBuild({
+            where: { name: info.name}
+          });
+          const amiibo = result[0];
+
+          amiibo.set({
+            displayName: info.displayName,
+            releaseDate: ifNotNull(info.releaseDate, (date) => moment(date, 'YYYY-MM-DD')),
+            amiiboSeriesId: seriesId
+          });
+
+          return <any>(await amiibo.save());
         });
-        const amiibo = result[0];
 
-        amiibo.set({
-          displayName: info.displayName,
-          releaseDate: ifNotNull(info.releaseDate, (date) => moment(date, 'YYYY-MM-DD')),
-          amiiboSeriesId: seriesId
-        });
-
-        return <any>(await amiibo.save());
-      });
-
-      return await Promise.all(promises);
-    }
-    catch(err) {
-      if(!!err.errors) { //Validation error.
-        const validationErrors = _.map(err.errors, (error: any) => `Expected ${error.expected} for ${error.path}. Actual: ${error.actual}`).join(',');
-        throw new Error(validationErrors);
+        return await Promise.all(promises);
       }
+      catch(err) {
+        if(!!err.errors) { //Validation error.
+          const validationErrors = _.map(err.errors, (error: any) => `Expected ${error.expected} for ${error.path}. Actual: ${error.actual}`).join(',');
+          throw new Error(validationErrors);
+        }
 
-      throw err;
-    }    
+        throw err;
+      }
+    });
   }
 
   public async remove(name: string): Promise<void> {
