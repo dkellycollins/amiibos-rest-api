@@ -47,6 +47,7 @@
     "babel-core": "^6.25.0",
     "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.2",
+    "cls-middleware": "^1.1.0",
     "continuation-local-storage": "^3.2.0",
     "express": "^4.15.3",
     "helmet": "^3.6.1",
