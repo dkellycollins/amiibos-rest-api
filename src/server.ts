@@ -7,24 +7,18 @@ import {Config} from './config';
 import {namespace} from './cls';
 import * as clsify from 'cls-middleware';
 
-export const SERVER = buildServer();
+export const SERVER = new InversifyExpressServer(container);
+SERVER.setConfig((app) => {
+  app.set('environment', Config.server.env);
+
+  app.use(clsify(namespace));
+
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+  app.use(bodyParser.json());
+
+  app.use('/docs', express.static(path.join(__dirname, 'docs')));
+});
+
 export const APP = SERVER.build();
-
-function buildServer() {
-  const server = new InversifyExpressServer(container);
-
-  server.setConfig((app) => {
-    app.set('environment', Config.server.env);
-
-    app.use(clsify(namespace));
-
-    app.use(bodyParser.urlencoded({
-      extended: true
-    }));
-    app.use(bodyParser.json());
-
-    app.use('/docs', express.static(path.join(__dirname, 'docs')));
-  });
-
-  return server;
-}
