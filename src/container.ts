@@ -34,20 +34,24 @@ import {amiiboSeriesModelFactory} from './models/sequelize/AmiiboSeriesModelFact
 import {collectionItemModelFactory} from './models/sequelize/CollectionItemModelFactory';
 import {collectionModelFactory} from './models/sequelize/CollectionModelFactory';
 import {IConfig, Config} from './config';
-import {Sequelize, Model} from 'sequelize';
+import * as Sequelize from 'sequelize';
+import {namespace} from './cls';
 
+//Environment Setup
 promiseFinally.shim();
+Sequelize['useCLS'](namespace);
 
 const container = new Container({ defaultScope: "Singleton" });
 
+//Config
 container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
 
 //Models
-container.bind<Sequelize>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
-container.bind<Model<IAmiiboSeries, any>>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(<any>amiiboSeriesModelFactory);
-container.bind<Model<IAmiibo, any>>(TYPES.Models.AmiiboModel).toDynamicValue(<any>amiiboModelFactory);
-container.bind<Model<ICollection, any>>(TYPES.Models.CollectionModel).toDynamicValue(<any>collectionModelFactory);
-container.bind<Model<ICollectionItem, any>>(TYPES.Models.CollectionItemModel).toDynamicValue(<any>collectionItemModelFactory);
+container.bind<Sequelize.Sequelize>(TYPES.Models.DataStore).toDynamicValue(dataStoreFactory);
+container.bind<Sequelize.Model<IAmiiboSeries, any>>(TYPES.Models.AmiiboSeriesModel).toDynamicValue(<any>amiiboSeriesModelFactory);
+container.bind<Sequelize.Model<IAmiibo, any>>(TYPES.Models.AmiiboModel).toDynamicValue(<any>amiiboModelFactory);
+container.bind<Sequelize.Model<ICollection, any>>(TYPES.Models.CollectionModel).toDynamicValue(<any>collectionModelFactory);
+container.bind<Sequelize.Model<ICollectionItem, any>>(TYPES.Models.CollectionItemModel).toDynamicValue(<any>collectionItemModelFactory);
 
 //Managers
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);
