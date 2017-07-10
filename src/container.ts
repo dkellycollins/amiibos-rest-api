@@ -36,6 +36,7 @@ import {collectionModelFactory} from './models/sequelize/CollectionModelFactory'
 import {IConfig, Config} from './config';
 import * as Sequelize from 'sequelize';
 import {namespace} from './cls';
+import * as Umzug from 'umzug';
 
 //Environment Setup
 promiseFinally.shim();
@@ -52,6 +53,17 @@ container.bind<Sequelize.Model<IAmiiboSeries, any>>(TYPES.Models.AmiiboSeriesMod
 container.bind<Sequelize.Model<IAmiibo, any>>(TYPES.Models.AmiiboModel).toDynamicValue(<any>amiiboModelFactory);
 container.bind<Sequelize.Model<ICollection, any>>(TYPES.Models.CollectionModel).toDynamicValue(<any>collectionModelFactory);
 container.bind<Sequelize.Model<ICollectionItem, any>>(TYPES.Models.CollectionItemModel).toDynamicValue(<any>collectionItemModelFactory);
+
+container.bind<Umzug.Umzug>(TYPES.Models.Migrator).toConstantValue(new Umzug({
+  storage: 'sequelize',
+  storageOptions: {
+    sequelize: container.get<Sequelize.Sequelize>(TYPES.Models.DataStore)
+  },
+  logging: console.log,
+  migrations: {
+    path: './src/models/migrations'
+  }
+}));
 
 //Managers
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);

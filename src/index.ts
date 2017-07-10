@@ -5,20 +5,10 @@ import {Config} from './config';
 import container from './container';
 import {TYPES} from './types';
 import {Sequelize} from 'sequelize';
-import * as Umzug from 'umzug';
+import {Umzug} from 'umzug';
 
 console.log('Updating database...');
-const umzug = new Umzug({
-  storage: 'sequelize',
-  storageOptions: {
-    sequelize: container.get<Sequelize>(TYPES.Models.DataStore)
-  },
-  logging: console.log,
-  migrations: {
-    path: './src/models/migrations'
-  }
-});
-
+const umzug = container.get<Umzug>(TYPES.Models.Migrator);
 umzug.up()
   .then(() => {
     APP.listen(Config.server.port);

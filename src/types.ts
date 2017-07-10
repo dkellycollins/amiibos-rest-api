@@ -19,7 +19,8 @@ export const TYPES = {
     AmiiboSeriesModel: 'AmiiboSeriesModel',
     CollectionModel: 'CollectionModel',
     CollectionItemModel: 'CollectionItemModel',
-    DataStore: 'DataStore'
+    DataStore: 'DataStore',
+    Migrator: 'Models.Migrator'
   },
   Config: 'Config'
 }

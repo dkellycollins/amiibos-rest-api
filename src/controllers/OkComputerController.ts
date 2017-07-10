@@ -6,6 +6,7 @@ import {TYPES} from '../types';
 import {IConfig} from '../config';
 import {RedisClient} from 'redis';
 import {Sequelize} from 'sequelize';
+import {Umzug} from 'umzug';
 
 @injectable()
 @Controller('/okcomputer')
@@ -13,7 +14,8 @@ export class OkComputerController {
 
   constructor(
     @inject(TYPES.Config) private _config: IConfig,
-    @inject(TYPES.Models.DataStore) private _sql: Sequelize) {
+    @inject(TYPES.Models.DataStore) private _sql: Sequelize,
+    @inject(TYPES.Models.Migrator) private _migrator: Umzug) {
 
   }
 
@@ -48,5 +50,11 @@ export class OkComputerController {
   public async sqlCheck(): Promise<boolean> {
     await this._sql.authenticate();
     return true;
+  }
+
+  @Get('/sql/migrations/executed')
+  public async getExecutedMigrations(): Promise<string[]> {
+    const executedMigrations = await this._migrator.executed();
+    return _.map(executedMigrations, (migration) => migration.file);
   }
 }
