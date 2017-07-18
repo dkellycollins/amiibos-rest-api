@@ -5,6 +5,7 @@ import {Request} from 'express';
 import {TYPES} from '../types';
 import {IAmiiboSeriesManager} from '../managers';
 import {IAmiiboSeries} from '../models';
+import * as passport from 'passport';
 
 @injectable()
 @Controller('/amiibo-series')
@@ -19,12 +20,12 @@ export class AmiiboSeriesController {
     return await this._amiiboSeriesManager.search(req.query.name);
   }
 
-  @Put('/')
+  @Put('/', passport.authenticate('localapikey'))
   public async resolve(req: Request): Promise<IAmiiboSeries[]>{
     return await this._amiiboSeriesManager.resolve(req.body);
   }
 
-  @Delete('/:name')
+  @Delete('/:name', passport.authenticate('localapikey'))
   public async remove(req: Request): Promise<void> {
     return await this._amiiboSeriesManager.remove(req.params.name);
   }
