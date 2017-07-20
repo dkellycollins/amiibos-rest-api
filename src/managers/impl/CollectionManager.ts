@@ -15,23 +15,15 @@ export class CollectionManager implements ICollectionManager {
   }
 
   public async fetch(id: number): Promise<ICollection> {
-    return await this._collectionModel.find(id);
+    throw new Error('Not Implemented');
   }
 
   public async create(info: ICreateCollectionInfo): Promise<ICollection> {
-    const collection = await this._collectionModel.create(info);
-
-    if(!_.isEmpty(info.items)) {
-      await this.saveItems(collection.id, info.items);
-    }
-
-    return collection;
+    throw new Error('Not Implemented');
   }
 
   public async remove(id: number): Promise<void> {
-    await this._collectionModel.destroy({
-      where: {id: id}
-    });
+    throw new Error('Not Implemented');
   }
 
   public async saveItems(id: number, itemInfos: ICollectionItemInfo[]): Promise<ICollection> {
