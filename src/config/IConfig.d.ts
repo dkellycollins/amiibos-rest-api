@@ -3,8 +3,6 @@ export interface IConfig {
     env: string;
     port: number;
   };
-
-  redis: any;
   
   sequelize: {
     url: string,

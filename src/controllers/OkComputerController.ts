@@ -4,7 +4,6 @@ import {Controller, Get, Post, Put, Delete} from 'inversify-express-utils';
 import {Request} from 'express';
 import {TYPES} from '../types';
 import {IConfig} from '../config';
-import {RedisClient} from 'redis';
 import {Sequelize} from 'sequelize';
 import {Umzug} from 'umzug';
 
@@ -29,21 +28,6 @@ export class OkComputerController {
     return {
       env: this._config.server.env
     };
-  }
-
-  @Get('/redis')
-  public async redisCheck(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const client = new RedisClient(this._config.redis);
-      client.info((err, result) => {
-        if(!!err) {
-          reject(err);
-        }
-        else {
-          resolve(result);
-        }
-      });
-    }); 
   }
 
   @Get('/sql')
