@@ -37,6 +37,8 @@ import {IConfig, Config} from './config';
 import * as Sequelize from 'sequelize';
 import {namespace} from './cls';
 import * as Umzug from 'umzug';
+import {localApiKeyStrategyFactory} from './authentication';
+import {Strategy} from 'passport';
 
 //Environment Setup
 promiseFinally.shim();
@@ -69,6 +71,9 @@ container.bind<Umzug.Umzug>(TYPES.Models.Migrator).toConstantValue(new Umzug({
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);
 container.bind<IAmiiboSeriesManager>(TYPES.Managers.AmiiboSeriesManager).to(AmiiboSeriesManager);
 container.bind<ICollectionManager>(TYPES.Managers.CollectionManager).to(CollectionManager);
+
+//Authentication
+container.bind<Strategy>(TYPES.PassportStrategy).toDynamicValue(localApiKeyStrategyFactory)
 
 //Messages
 container.bind<IMessageFactory<IAmiibo, IAmiiboMessage>>(TYPES.Controllers.Messages.AmiiboMessageFactory)

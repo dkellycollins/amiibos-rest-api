@@ -1,5 +1,5 @@
 import {IModel} from '../models';
 
-export interface IAccount extends IModel<any> {
+export interface IAccount {
   identity: string;
 }

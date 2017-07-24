@@ -24,5 +24,6 @@ export const TYPES = {
     DataStore: 'DataStore',
     Migrator: 'Models.Migrator'
   },
-  Config: 'Config'
+  Config: 'Config',
+  PassportStrategy: 'PassportStrategy'
 }

@@ -1,0 +1,2 @@
+
+export {localApiKeyStrategyFactory} from './LocalApiKeyStrategyFactory';

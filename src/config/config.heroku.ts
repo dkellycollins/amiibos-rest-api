@@ -4,7 +4,8 @@ const redisUrl = url.parse(process.env.REDIS_URL)
 export const CONFIG = {
   server: {
     env: "production",
-    port: process.env.PORT
+    port: process.env.PORT,
+    apiKey: process.env.LOCAL_API_KEY
   },
   redis: {
     host: redisUrl.hostname,
