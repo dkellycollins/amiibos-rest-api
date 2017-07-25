@@ -1,6 +1,6 @@
 import {interfaces} from 'inversify';
 import {Strategy} from 'passport';
-import {Strategy as LocalApiKeyStrategy} from 'passport-localapikey';
+import {Strategy as LocalApiKeyStrategy} from 'passport-localapikey-update';
 import {IAccount} from '../models';
 import {IConfig} from '../config';
 import {TYPES} from '../types';
@@ -19,5 +19,5 @@ export function localApiKeyStrategyFactory(context: interfaces.Context): Strateg
     return done(null, user);
   }
 
-  return new LocalApiKeyStrategy({apiKeyHeader: 'x-api-key'}, verify);
+  return new LocalApiKeyStrategy(verify);
 }

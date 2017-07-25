@@ -20,12 +20,12 @@ export class AmiiboSeriesController {
     return await this._amiiboSeriesManager.search(req.query.name);
   }
 
-  @Put('/', passport.authenticate('localapikey'))
+  @Put('/', passport.authenticate('localapikey', {session: false}))
   public async resolve(req: Request): Promise<IAmiiboSeries[]>{
     return await this._amiiboSeriesManager.resolve(req.body);
   }
 
-  @Delete('/:name', passport.authenticate('localapikey'))
+  @Delete('/:name', passport.authenticate('localapikey', {session: false}))
   public async remove(req: Request): Promise<void> {
     return await this._amiiboSeriesManager.remove(req.params.name);
   }

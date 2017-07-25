@@ -20,19 +20,19 @@ export class OkComputerController {
 
   }
 
-  @Get('/', passport.authenticate('localapikey'))
+  @Get('/', passport.authenticate('localapikey', {session: false}))
   public defaultCheck(): boolean {
     return true;
   }
 
-  @Get('/env', passport.authenticate('localapikey'))
+  @Get('/env', passport.authenticate('localapikey', {session: false}))
   public envCheck(): any {
     return {
       env: this._config.server.env
     };
   }
 
-  @Get('/redis', passport.authenticate('localapikey'))
+  @Get('/redis', passport.authenticate('localapikey', {session: false}))
   public async redisCheck(): Promise<any> {
     return new Promise((resolve, reject) => {
       const client = new RedisClient(this._config.redis);
@@ -47,13 +47,13 @@ export class OkComputerController {
     }); 
   }
 
-  @Get('/sql', passport.authenticate('localapikey'))
+  @Get('/sql', passport.authenticate('localapikey', {session: false}))
   public async sqlCheck(): Promise<boolean> {
     await this._sql.authenticate();
     return true;
   }
 
-  @Get('/sql/migrations/executed', passport.authenticate('localapikey'))
+  @Get('/sql/migrations/executed', passport.authenticate('localapikey', {session: false}))
   public async getExecutedMigrations(): Promise<string[]> {
     const executedMigrations = await this._migrator.executed();
     return _.map(executedMigrations, (migration) => migration.file);

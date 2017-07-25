@@ -12,7 +12,10 @@ import {TYPES} from './types';
 export const SERVER = new InversifyExpressServer(container);
 SERVER.setConfig((app: express.Application) => {
   const strategies = container.getAll<passport.Strategy>(TYPES.PassportStrategy);
-  strategies.forEach((strategy) => passport.use(strategy));
+  strategies.forEach((strategy) => {
+    console.log(`Using authentication strategy [${strategy.name}].`);
+    passport.use(strategy)
+  });
 
   app.set('environment', Config.server.env);
 
