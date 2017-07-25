@@ -165,6 +165,7 @@ describe('PUT /amiibos', function() {
 
       return await r.put('/amiibos')
         .set('Content-Type', 'application/json')
+        .set('apikey', '1234abcd')
         .send(opts.request)
         .expect(opts.expectedStatus || 200, opts.expected);
     }
@@ -200,6 +201,7 @@ describe('DELETE /amiibos/:name', function() {
       await given_the_amiibos(r, opts.amiibos);
 
       return await r.delete(`/amiibos/${opts.name}`)
+        .set('apikey', '1234abcd')
         .expect(opts.expectedStatus || 200);
     }
   }

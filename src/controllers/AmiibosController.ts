@@ -7,6 +7,7 @@ import {IAmiiboManager} from '../managers';
 import {IMessageFactory} from './messages/IMessageFactory';
 import {IAmiiboMessage} from './messages/AmiiboMessageFactory';
 import {TYPES} from '../types';
+import * as passport from 'passport';
 
 @injectable()
 @Controller('/amiibos')
@@ -23,13 +24,13 @@ export class AmiibosController {
     return await this._amiiboMessageFactory.toMessages(searchResults);
   }
 
-  @Put('/')
+  @Put('/', passport.authenticate('localapikey', {session: false}))
   public async resolve(req: Request): Promise<IAmiiboMessage[]>{
     const amiibos = await this._amiiboManager.resolve(req.body);
     return await this._amiiboMessageFactory.toMessages(amiibos);
   }
 
-  @Delete('/:name')
+  @Delete('/:name', passport.authenticate('localapikey', {session: false}))
   public async remove(req: Request): Promise<boolean> {
     await this._amiiboManager.remove(req.params.name);
     return true;

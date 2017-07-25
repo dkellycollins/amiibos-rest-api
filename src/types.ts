@@ -15,6 +15,8 @@ export const TYPES = {
     CollectionManager: 'CollectionManager' 
   },
   Models: {
+    AccountModel: 'Models.AccountModel',
+    AccountIdentityModel: 'Models.AccountIdentityModel',
     AmiiboModel: 'AmiiboModel',
     AmiiboSeriesModel: 'AmiiboSeriesModel',
     CollectionModel: 'CollectionModel',
@@ -22,5 +24,6 @@ export const TYPES = {
     DataStore: 'DataStore',
     Migrator: 'Models.Migrator'
   },
-  Config: 'Config'
+  Config: 'Config',
+  PassportStrategy: 'PassportStrategy'
 }

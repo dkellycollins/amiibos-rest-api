@@ -6,6 +6,7 @@ import {TYPES} from '../types';
 import {IConfig} from '../config';
 import {Sequelize} from 'sequelize';
 import {Umzug} from 'umzug';
+import * as passport from 'passport';
 
 @injectable()
 @Controller('/okcomputer')
@@ -18,25 +19,25 @@ export class OkComputerController {
 
   }
 
-  @Get('/')
+  @Get('/', passport.authenticate('localapikey', {session: false}))
   public defaultCheck(): boolean {
     return true;
   }
 
-  @Get('/env')
+  @Get('/env', passport.authenticate('localapikey', {session: false}))
   public envCheck(): any {
     return {
       env: this._config.server.env
     };
   }
 
-  @Get('/sql')
+  @Get('/sql', passport.authenticate('localapikey', {session: false}))
   public async sqlCheck(): Promise<boolean> {
     await this._sql.authenticate();
     return true;
   }
 
-  @Get('/sql/migrations/executed')
+  @Get('/sql/migrations/executed', passport.authenticate('localapikey', {session: false}))
   public async getExecutedMigrations(): Promise<string[]> {
     const executedMigrations = await this._migrator.executed();
     return _.map(executedMigrations, (migration) => migration.file);
