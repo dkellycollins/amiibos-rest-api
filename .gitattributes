@@ -161,3 +161,14 @@ assets/images/kirby_0.png filter=lfs diff=lfs merge=lfs -text
 assets/images/mario_1.png filter=lfs diff=lfs merge=lfs -text
 assets/images/rosalina_0.png filter=lfs diff=lfs merge=lfs -text
 docs/Amiibo[[:space:]]Collector[[:space:]]Data[[:space:]]Model.pdf filter=lfs diff=lfs merge=lfs -text
+assets/images/metroid.png filter=lfs diff=lfs merge=lfs -text
+assets/images/peach_wedding_outfit.png filter=lfs diff=lfs merge=lfs -text
+assets/images/revali.png filter=lfs diff=lfs merge=lfs -text
+assets/images/bowser_wedding_outfit.png filter=lfs diff=lfs merge=lfs -text
+assets/images/chrom.png filter=lfs diff=lfs merge=lfs -text
+assets/images/daruk.png filter=lfs diff=lfs merge=lfs -text
+assets/images/tiki.png filter=lfs diff=lfs merge=lfs -text
+assets/images/urbosa.png filter=lfs diff=lfs merge=lfs -text
+assets/images/mario_wedding_outfit.png filter=lfs diff=lfs merge=lfs -text
+assets/images/mipha.png filter=lfs diff=lfs merge=lfs -text
+assets/images/samus_aran.png filter=lfs diff=lfs merge=lfs -text
