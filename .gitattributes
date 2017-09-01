@@ -172,3 +172,6 @@ assets/images/urbosa.png filter=lfs diff=lfs merge=lfs -text
 assets/images/mario_wedding_outfit.png filter=lfs diff=lfs merge=lfs -text
 assets/images/mipha.png filter=lfs diff=lfs merge=lfs -text
 assets/images/samus_aran.png filter=lfs diff=lfs merge=lfs -text
+assets/images/king_knight.png filter=lfs diff=lfs merge=lfs -text
+assets/images/plague_knight.png filter=lfs diff=lfs merge=lfs -text
+assets/images/specter_knight.png filter=lfs diff=lfs merge=lfs -text
