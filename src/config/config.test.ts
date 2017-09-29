@@ -1,11 +1,11 @@
 export const CONFIG = {
   server: {
-    env: "test"
+    env: 'test'
   },
   sequelize: {
-    url: 'postgres://postgres@localhost:32768/amiibos_test',
+    url: process.env.DATABASE_URL,
     options: {
       logging: false
     }
   }
-}
+};

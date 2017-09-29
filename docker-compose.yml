@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  web:
+    build:
+      context: .
+      args:
+        port: 3000
+    environment: 
+      NODE_ENV: local
+      DATABASE_URL: postgres://postgres@database:5432/amiibos
+    ports: 
+    - '3000:3000'
+    links:
+    - db:database
+  db:
+    image: postgres
+    environment: 
+      POSTGRES_DB: amiibos

@@ -1,0 +1,19 @@
+version: '3'
+services: 
+  web:
+    build:
+      context: .
+      args:
+        port: 3000
+    environment: 
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres@database:5432/amiibos_test
+    links:
+    - db_test:database
+    command: 
+    - npm
+    - test
+  db_test:
+    image: postgres
+    environment: 
+      POSTGRES_DB: amiibos_test
