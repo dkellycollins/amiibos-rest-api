@@ -14,8 +14,7 @@ export class OkComputerController {
 
   constructor(
     @inject(TYPES.Config) private _config: IConfig,
-    @inject(TYPES.Models.DataStore) private _sql: Sequelize,
-    @inject(TYPES.Models.Migrator) private _migrator: Umzug) {
+    @inject(TYPES.Models.DataStore) private _sql: Sequelize) {
 
   }
 
@@ -35,11 +34,5 @@ export class OkComputerController {
   public async sqlCheck(): Promise<boolean> {
     await this._sql.authenticate();
     return true;
-  }
-
-  @Get('/sql/migrations/executed', passport.authenticate('localapikey', {session: false}))
-  public async getExecutedMigrations(): Promise<string[]> {
-    const executedMigrations = await this._migrator.executed();
-    return _.map(executedMigrations, (migration) => migration.file);
   }
 }

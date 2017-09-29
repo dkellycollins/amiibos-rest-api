@@ -44,7 +44,7 @@ import {Strategy} from 'passport';
 promiseFinally.shim();
 Sequelize['useCLS'](namespace);
 
-const container = new Container({ defaultScope: "Singleton" });
+const container = new Container({ defaultScope: 'Singleton' });
 
 //Config
 container.bind<IConfig>(TYPES.Config).toConstantValue(Config);
@@ -56,28 +56,17 @@ container.bind<Sequelize.Model<IAmiibo, any>>(TYPES.Models.AmiiboModel).toDynami
 container.bind<Sequelize.Model<ICollection, any>>(TYPES.Models.CollectionModel).toDynamicValue(<any>collectionModelFactory);
 container.bind<Sequelize.Model<ICollectionItem, any>>(TYPES.Models.CollectionItemModel).toDynamicValue(<any>collectionItemModelFactory);
 
-container.bind<Umzug.Umzug>(TYPES.Models.Migrator).toConstantValue(new Umzug({
-  storage: 'sequelize',
-  storageOptions: {
-    sequelize: container.get<Sequelize.Sequelize>(TYPES.Models.DataStore)
-  },
-  logging: console.log,
-  migrations: {
-    path: './src/models/migrations'
-  }
-}));
-
 //Managers
 container.bind<IAmiiboManager>(TYPES.Managers.AmiiboManager).to(AmiiboManager);
 container.bind<IAmiiboSeriesManager>(TYPES.Managers.AmiiboSeriesManager).to(AmiiboSeriesManager);
 container.bind<ICollectionManager>(TYPES.Managers.CollectionManager).to(CollectionManager);
 
 //Authentication
-container.bind<Strategy>(TYPES.PassportStrategy).toDynamicValue(localApiKeyStrategyFactory)
+container.bind<Strategy>(TYPES.PassportStrategy).toDynamicValue(localApiKeyStrategyFactory);
 
 //Messages
 container.bind<IMessageFactory<IAmiibo, IAmiiboMessage>>(TYPES.Controllers.Messages.AmiiboMessageFactory)
-  .to(AmiiboMessageFactory)
+  .to(AmiiboMessageFactory);
 
 //Controllers
 container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)

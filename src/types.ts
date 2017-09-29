@@ -22,8 +22,7 @@ export const TYPES = {
     CollectionModel: 'CollectionModel',
     CollectionItemModel: 'CollectionItemModel',
     DataStore: 'DataStore',
-    Migrator: 'Models.Migrator'
   },
   Config: 'Config',
   PassportStrategy: 'PassportStrategy'
-}
+};
