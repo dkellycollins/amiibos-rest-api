@@ -1,0 +1,56 @@
+swagger: '2.0'
+host: amiibos-api.herokuapp.com
+info:
+  title: Amiibos API
+  description: >
+    A simple REST services that provides data about amiibos 
+    and allows consumers to group amiibos into collections.
+  version: 1.0.0
+schemes:
+  - https
+  - http
+produces:
+  - application/json
+paths:
+  /amiibos:
+    get:
+      operationId: 'SearchAmiibos'
+      description: 'Returns Amiibos matching the provided criteria'
+      tags: ['public']
+      parameters:
+        - name: name
+          description: 'The unique name of the Amiibo'
+          in: query
+          type: string
+          required: false
+        - name: series
+          description: 'The unique name of the Amiibos Series'
+          in: query
+          type: string
+          required: false
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Amiibo'
+definitions:
+  Amiibo:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
+      releaseDate:
+        type: string
+      series:
+        $ref: '#/definitions/AmiiboSeries'
+  AmiiboSeries:
+    type: object
+    properties:
+      name:
+        type: string
+      displayName:
+        type: string
