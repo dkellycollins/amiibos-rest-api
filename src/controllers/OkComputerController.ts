@@ -18,7 +18,7 @@ export class OkComputerController {
 
   }
 
-  @Get('/', passport.authenticate('localapikey', {session: false}))
+  @Get('/')
   public defaultCheck(): boolean {
     return true;
   }
