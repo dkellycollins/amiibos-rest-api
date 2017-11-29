@@ -98,7 +98,7 @@ describe('GET /amiibos', function() {
       return await request(APP)
         .get(`/amiibos?${query}`)
         .expect(opts.expectedStatus || 200, opts.expected);
-    }
+    };
   }
 
 });
@@ -156,7 +156,7 @@ describe('PUT /amiibos', function() {
         displayName: 'testSeries1'
       }
     }]
-  }))
+  }));
 
   function testSave(opts) {
     return async function() {
@@ -168,7 +168,7 @@ describe('PUT /amiibos', function() {
         .set('apikey', '1234abcd')
         .send(opts.request)
         .expect(opts.expectedStatus || 200, opts.expected);
-    }
+    };
   }
 });
 
@@ -182,7 +182,7 @@ describe('DELETE /amiibos/:name', function() {
       }
     ],
     name: 'test_1'
-  }))
+  }));
 
   it.skip('fails to remove a non-existant amiibo', testRemove({
     amiibos: [
@@ -203,7 +203,7 @@ describe('DELETE /amiibos/:name', function() {
       return await r.delete(`/amiibos/${opts.name}`)
         .set('apikey', '1234abcd')
         .expect(opts.expectedStatus || 200);
-    }
+    };
   }
 
 });
