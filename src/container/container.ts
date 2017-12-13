@@ -61,4 +61,4 @@ container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)
   .whenTargetNamed(NAMES.AmiiboSeriesController);
 container.bind<expressUtilInterfaces.Controller>(TYPE.Controller)
   .to(StatusController)
-  .whenTargetNamed(NAMES.OkComputerController);
+  .whenTargetNamed(NAMES.StatusController);
