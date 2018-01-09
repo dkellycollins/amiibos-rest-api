@@ -8,17 +8,19 @@ import {namespace} from './cls';
 import * as clsify from 'cls-middleware';
 import * as passport from 'passport';
 import {TYPES} from './types';
+import * as cors from 'cors';
 
 export const SERVER = new InversifyExpressServer(container);
 SERVER.setConfig((app: express.Application) => {
   const strategies = container.getAll<passport.Strategy>(TYPES.PassportStrategy);
   strategies.forEach((strategy) => {
     console.log(`Using authentication strategy [${strategy.name}].`);
-    passport.use(strategy)
+    passport.use(strategy);
   });
 
   app.set('environment', Config.server.env);
 
+  app.use(cors());
   app.use('/docs', express.static(path.join(__dirname, 'docs')));
   app.use(clsify(namespace));
   app.use(bodyParser.urlencoded({
@@ -29,3 +31,4 @@ SERVER.setConfig((app: express.Application) => {
 });
 
 export const APP = SERVER.build();
+  
